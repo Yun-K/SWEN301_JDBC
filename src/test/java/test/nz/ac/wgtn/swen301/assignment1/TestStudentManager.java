@@ -180,7 +180,22 @@ public class TestStudentManager {
     }
 
     @Test
-    public void test_performance() {
+    public void test_performance() throws NoSuchRecordException {
+        long before_seconds = System.currentTimeMillis();
+        // run 1000 random read queries
+        for (int i = 0; i < 1000; i++) {
+
+            // generate random numbers within 0 to 9(including)
+            int randomNumber = (int) (Math.random() * 10) + 0;
+            String degreeID = "deg" + Integer.toString(randomNumber);
+            StudentManager.readDegree(degreeID);
+        }
+
+        long after_seconds = System.currentTimeMillis();
+        long diff = after_seconds - before_seconds;
+        System.out.println(
+                "1000 queries runs " + diff + " milliseconds!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        assert diff > 0 && diff < 1000;
 
     }
 
