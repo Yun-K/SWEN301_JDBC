@@ -39,7 +39,7 @@ public class TestStudentManager {
 
         Degree degree0 = StudentManager.readDegree("deg0");
         assertNotNull(degree0);
-        // System.out.println(degree_0.getId() + "\n" + degree_0.getName());
+        // System.out.println(degree_0.getId() + "\n" + degree_0.getName());//for debug
         assert degree0.getId().equals("deg0") && degree0.getName().equals("BSc Computer Science");
 
         Degree degree1 = StudentManager.readDegree("deg1");
@@ -52,7 +52,7 @@ public class TestStudentManager {
 
         Degree degree3 = StudentManager.readDegree("deg3");
         assertNotNull(degree3);
-        // System.out.println(degree3.getId() + "\n" + degree3.getName());
+        // System.out.println(degree3.getId() + "\n" + degree3.getName());//for debug
         assert degree3.getId().equals("deg3")
                 && degree3.getName().equals("BE Software Engineering");
 
