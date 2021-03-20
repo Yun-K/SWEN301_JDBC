@@ -1,12 +1,13 @@
 package test.nz.ac.wgtn.swen301.assignment1;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import nz.ac.wgtn.swen301.assignment1.StudentManager;
 import nz.ac.wgtn.swen301.studentdb.Degree;
+import nz.ac.wgtn.swen301.studentdb.NoSuchRecordException;
 import nz.ac.wgtn.swen301.studentdb.Student;
 import nz.ac.wgtn.swen301.studentdb.StudentDB;
 
@@ -29,7 +30,8 @@ public class TestStudentManager {
 
     /**
      * Description: <br/>
-     * Check whether the fields of Degree object is correct or not.
+     * Check whether the fields of Degree object is correct or not. It check the correct degree
+     * id .
      * 
      * @author Yun Zhou
      * @throws Exception
@@ -82,8 +84,41 @@ public class TestStudentManager {
 
     }
 
+    /**
+     * Description: <br/>
+     * Test for invalid range of the degree id. Just opposite of the above.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
+    @Test
+    public void test_readDegree1() throws NoSuchRecordException {
+        // check the negative
+        Degree degree_invalid = StudentManager.readDegree("deg-1");
+        assertNull(degree_invalid);
+        // random check
+        for (int i = 0; i < 10; i++) {
+            // define the range
+            int max = 10;
+            int min = 99;
+            int range = max - min + 1;
+
+            // generate random numbers within 1 to 4(including)
+            int randomNumber = (int) (Math.random() * range) + min;
+            String degreeID_inValid = "deg" + String.valueOf(randomNumber);
+            assertNull(StudentManager.readDegree(degreeID_inValid));
+        }
+        // System.out.println("MMMMMMMMMMMMMMMMMMM");
+
+    }
+
     @Test
     public void test_readStudent() throws Exception {
+
+    }
+
+    @Test
+    public void test_performance() {
 
     }
 
