@@ -97,24 +97,48 @@ public class TestStudentManager {
         Degree degree_invalid = StudentManager.readDegree("deg-1");
         assertNull(degree_invalid);
         // random check
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             // define the range
-            int max = 10;
-            int min = 99;
+            int max = 99;
+            int min = 10;
             int range = max - min + 1;
-
-            // generate random numbers within 1 to 4(including)
+            // generate random numbers within 10 to 99(including)
             int randomNumber = (int) (Math.random() * range) + min;
-            String degreeID_inValid = "deg" + String.valueOf(randomNumber);
+            // check if the random value is in the range
+            assert randomNumber >= 10 && randomNumber <= 99;
+            String degreeID_inValid = "deg" + Integer.toString(randomNumber);
             assertNull(StudentManager.readDegree(degreeID_inValid));
         }
-        // System.out.println("MMMMMMMMMMMMMMMMMMM");
+        // System.out.println("MMMMMMMMMMMMMMMMMMM");//for debug
 
     }
 
+    /**
+     * Description: <br/>
+     * Test for the valid studnet id.
+     * 
+     * @author Yun Zhou
+     * @throws Exception
+     */
     @Test
     public void test_readStudent() throws Exception {
+        // random check
+        for (int i = 0; i < 910; i++) {
+            // define the range
+            int max = StudentManager.availableStudentID_max;
+            int min = StudentManager.availableStudentID_min;
+            int range = max - min + 1;
 
+            // generate random numbers within 0 to 9999(including)
+            int randomNumber = (int) (Math.random() * range) + min;
+            // check if the random value is in the range
+            assert randomNumber >= min && randomNumber <= max;
+
+            String validID = "id" + Integer.toString(randomNumber);
+            Student student = StudentManager.readStudent(validID);
+            assertNotNull(student);
+        }
+        // System.out.println("SACACDKJCB VDUKICBIVHKCB");
     }
 
     @Test
