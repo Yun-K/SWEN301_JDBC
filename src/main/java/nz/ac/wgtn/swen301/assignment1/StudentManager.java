@@ -11,6 +11,11 @@ import java.util.Collection;
  * @author jens dietrich
  */
 public class StudentManager {
+    /** defind the range of the available student id which is 0 - 9999 */
+    public static final int availableStudentID_min = 0;
+
+    /** defind the range of the available student id which is 0 - 9999 */
+    public static final int availableStudentID_max = 9999;
 
     // DO NOT REMOVE THE FOLLOWING -- THIS WILL ENSURE THAT THE DATABASE IS AVAILABLE
     // AND THE APPLICATION CAN CONNECT TO IT WITH JDBC
@@ -37,6 +42,38 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
+        try {
+            // estblish the connection to the directory
+            String jdbc_url = "jdbc:derby:memory:studentdb";
+            Connection connection = DriverManager.getConnection(jdbc_url);
+            // Create a Statement object to execute the query with.
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement
+                    .executeQuery("SELECT * FROM STUDENTS WHERE ID = '" + id + "'");
+
+            if (resultSet == null) {
+                throw new NoSuchRecordException(
+                        "We didn't find the student id: " + id + " in our database. ");
+            }
+            // iterate the resultSet until no more rows can be read
+            while (resultSet.next()) {
+                // get the corresponding info from the STUDENTS database
+                String first_name = resultSet.getString("first_name");
+                String name = resultSet.getString("name");
+                String degreeID = (resultSet.getString("degree"));
+
+                // construct the degree object by passing the degreeID variable
+                Degree degree = StudentManager.readDegree(degreeID);
+                // construct the student object and return it
+                Student student = new Student(id, name, first_name, degree);
+                connection.close();// close connection to save the resourse
+                return student;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         return null;
     }
 
@@ -86,9 +123,6 @@ public class StudentManager {
             throwables.printStackTrace();
         }
 
-        // it should never return null
-        // it should either return the Degree object with the specificed id
-        // or throw a NoSuchRecordException
         return null;
     }
 
@@ -97,12 +131,14 @@ public class StudentManager {
      * with this id will result in a NoSuchRecordException.
      *
      * @param student
+     *            the student object to delete from the database
      * @throws NoSuchRecordException
      *             if no record corresponding to this student instance exists in the database
      *             This functionality is to be tested in
      *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
      */
     public static void delete(Student student) throws NoSuchRecordException {
+
     }
 
     /**
