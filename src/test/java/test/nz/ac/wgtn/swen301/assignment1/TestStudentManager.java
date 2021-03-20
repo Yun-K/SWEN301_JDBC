@@ -34,10 +34,9 @@ public class TestStudentManager {
      * id .
      * 
      * @author Yun Zhou
-     * @throws Exception
      */
     @Test
-    public void test_readDegree() throws Exception {
+    public void test_readDegree() throws NoSuchRecordException {
 
         Degree degree0 = StudentManager.readDegree("deg0");
         assertNotNull(degree0);
@@ -115,13 +114,15 @@ public class TestStudentManager {
 
     /**
      * Description: <br/>
-     * Test for the valid studnet id.
+     * Test for the valid studnet id. Run 910 times to check whether it will not return a null
+     * student object.
+     * 
      * 
      * @author Yun Zhou
-     * @throws Exception
+     * @throws NoSuchRecordException
      */
     @Test
-    public void test_readStudent() throws Exception {
+    public void test_readStudent() throws NoSuchRecordException {
         // random check
         for (int i = 0; i < 910; i++) {
             // define the range
@@ -139,6 +140,43 @@ public class TestStudentManager {
             assertNotNull(student);
         }
         // System.out.println("SACACDKJCB VDUKICBIVHKCB");
+    }
+
+    /**
+     * Description: <br/>
+     * Check whether the corresponding fields are the same as the TABLE STUIDENTS.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
+    @Test
+    public void test_readStudent1() throws NoSuchRecordException {
+        Student student0 = StudentManager.readStudent("id0");
+        assert student0.getId().equals("id0") && student0.getFirstName().equals("James")
+                && student0.getName().equals("Smith")
+                && student0.getDegree().getId().equals("deg0");
+
+        Student student1 = StudentManager.readStudent("id1");
+        assert student1.getId().equals("id1") && student1.getFirstName().equals("John")
+                && student1.getName().equals("Jones")
+                && student1.getDegree().getId().equals("deg1");
+
+        Student student2 = StudentManager.readStudent("id2");
+        assert student2.getId().equals("id2") && student2.getFirstName().equals("Janice")
+                && student2.getName().equals("Taylor")
+                && student2.getDegree().getId().equals("deg2");
+
+        Student student3 = StudentManager.readStudent("id3");
+        assert student3.getId().equals("id3") && student3.getFirstName().equals("Max")
+                && student3.getName().equals("Muller")
+                && student3.getDegree().getId().equals("deg3");
+
+        Student student4 = StudentManager.readStudent("id4");
+        assert student4.getId().equals("id4") && student4.getFirstName().equals("Keira")
+                && student4.getName().equals("Tipene")
+                && student4.getDegree().getId().equals("deg4");
+
+        // System.out.println("readStudnet 1-------------------------------------");
     }
 
     @Test
