@@ -179,6 +179,32 @@ public class TestStudentManager {
         // System.out.println("readStudnet 1-------------------------------------");
     }
 
+    /**
+     * Description: <br/>
+     * check whether the invalid id will return null Studnet instance.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
+    @Test
+    public void test_readStudent2() throws NoSuchRecordException {
+        // random check
+        for (int i = 0; i < 910; i++) {
+            // define the range
+            int max = 99999;
+            int min = 10000;
+            int range = max - min + 1;
+
+            // generate random numbers within 0 to 9999(including)
+            int randomNumber = (int) (Math.random() * range) + min;
+
+            String invalidID = "id" + Integer.toString(randomNumber);
+            Student student = StudentManager.readStudent(invalidID);
+            assertNull(student);
+        }
+
+    }
+
     @Test
     public void test_performance() throws NoSuchRecordException {
         long before_seconds = System.currentTimeMillis();
