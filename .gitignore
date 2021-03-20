@@ -1,6 +1,8 @@
 # Reference: https://github.com/github/gitignore
 # https://gist.github.com/edesdan/6bb43343740bcd54ef0f56a384a2f66f
 
+.idea
+
 # Eclipse
 .classpath
 .project
@@ -162,7 +164,6 @@ fabric.properties
 
 ### Intellij Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
-
 # *.iml
 # modules.xml
 # .idea/misc.xml
