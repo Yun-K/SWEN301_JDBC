@@ -178,6 +178,7 @@ public class StudentManager {
      * ensure that tests only use values with < 10 characters.
      *
      * @param student
+     *            Student instance to update
      * @throws NoSuchRecordException
      *             if no record corresponding to this student instance exists in the database
      *             This functionality is to be tested in
@@ -223,8 +224,11 @@ public class StudentManager {
      * with < 10 characters.
      *
      * @param name
+     *            the last name of the Student instance
      * @param firstName
+     *            the first name of the Student instance
      * @param degree
+     *            the degree that this Student instance belongs to
      * @return a freshly created student instance This functionality is to be tested in
      *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
      *         (followed by optional numbers if multiple tests are used)
