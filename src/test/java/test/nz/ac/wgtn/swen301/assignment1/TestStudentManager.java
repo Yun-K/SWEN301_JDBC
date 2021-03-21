@@ -2,7 +2,6 @@ package test.nz.ac.wgtn.swen301.assignment1;
 
 import static org.junit.Assert.*;
 
-import java.awt.Checkbox;
 import java.util.Collection;
 
 import org.junit.Before;
@@ -427,9 +426,24 @@ public class TestStudentManager {
 
     }
 
+    /**
+     * Description: <br/>
+     * A test for checking the degreeID.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_getAllDegreeIds() throws NoSuchRecordException {
         Collection<String> used_degreeIDs = (Collection<String>) StudentManager.getAllDegreeIds();
+        assertTrue(used_degreeIDs.size() > 0 && used_degreeIDs.size() == 10);
+
+        int num = 0;
+        for (String degreeID : used_degreeIDs) {
+            String id = "deg" + Integer.toString(num);
+            assertTrue(id.equals(degreeID));
+            num++;
+        }
 
     }
 }
