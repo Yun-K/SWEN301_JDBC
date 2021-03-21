@@ -2,6 +2,9 @@ package test.nz.ac.wgtn.swen301.assignment1;
 
 import static org.junit.Assert.*;
 
+import java.awt.Checkbox;
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -366,10 +369,20 @@ public class TestStudentManager {
 
     @Test
     public void test_getAllStudentIds() throws NoSuchRecordException {
+        Collection<String> used_ids = StudentManager.getAllStudentIds();
+        assertNotNull(used_ids);
+        assert used_ids.size() > 0;
+        int num = 0;
+        for (String used_id : used_ids) {
+            String id = "id" + Integer.toString(num);
+            assertTrue(id.equals(used_id));
+            num++;
+        }
     }
 
     @Test
     public void test_getAllDegreeIds() throws NoSuchRecordException {
+        Collection<String> all_degreeID = (Collection<String>) StudentManager.getAllDegreeIds();
 
     }
 }
