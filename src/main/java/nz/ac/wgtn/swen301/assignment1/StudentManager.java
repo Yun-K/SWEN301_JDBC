@@ -163,7 +163,7 @@ public class StudentManager {
                     "DELETE FROM STUDENTS WHERE ID='" + id + "'" + " AND " +
                                     "first_name='" + firstName + "'" + " AND name='" + lastName
                                     + "'");
-
+            connection.close();// close the connection to save resources
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -208,7 +208,7 @@ public class StudentManager {
             statement.executeUpdate(
                     "UPDATE STUDENTS SET first_name='" + firstName + "', degree='" + degree.getId()
                                     + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
-
+            connection.close();// close the connection to save resources
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -249,7 +249,7 @@ public class StudentManager {
                 Student currentStudent = StudentManager.readStudent(id);
                 // it is null, which means this
                 if (currentStudent == null) {
-                    //
+                    // add it into the STUDENTS table
                     String sql = "INSERT INTO STUDENTS (id, name, first_name, degree) VALUES ('"
                                  + id + "', '" + name + "', '" + firstName + "', '"
                                  + degree.getId() + "')";
