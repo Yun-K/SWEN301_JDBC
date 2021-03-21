@@ -256,23 +256,27 @@ public class TestStudentManager {
      * Description: <br/>
      * Test for checking whether the delete Student method is worked.
      *
-     * This test will try to delete all the students and check if it is worked.
+     * This test will try to delete more student instances and check if it is worked.
      * 
      * @author Yun Zhou
      * @throws NoSuchRecordException
      */
     @Test
     public void test_delete1() throws NoSuchRecordException {
-        String student_id = "id7";
 
-        Student student = StudentManager.readStudent(student_id);
-        // check the student is exist for now
-        assertNotNull(student);
+        // random check
+        for (int i = 0; i < 90; i++) {
 
-        // delete the student and
-        // check whether the student has been deleted or not
-        StudentManager.delete(student);
-        assertNull(StudentManager.readStudent(student_id));
+            String validID = "id" + i;
+            Student student = StudentManager.readStudent(validID);
+
+            // check the student is exist for now
+            assertNotNull(student);
+            // delete the student and
+            // check whether the student has been deleted or not
+            StudentManager.delete(student);
+            assertNull(StudentManager.readStudent(validID));
+        }
 
         // System.out.println("DELETE TEST 1 DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
 
