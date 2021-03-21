@@ -58,10 +58,11 @@ public class StudentManager {
             ResultSet resultSet = statement
                     .executeQuery("SELECT * FROM STUDENTS WHERE ID = '" + id + "'");
 
-            if (resultSet == null) {
-                throw new NoSuchRecordException(
-                        "We didn't find the student id: " + id + " in our database. ");
-            }
+            // if (resultSet == null) {
+            // throw new NoSuchRecordException(
+            // "We didn't find the student id: " + id + " in our database. ");
+            // }
+
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
                 // get the corresponding info from the STUDENTS database
@@ -229,7 +230,42 @@ public class StudentManager {
      *         (followed by optional numbers if multiple tests are used)
      */
     public static Student createStudent(String name, String firstName, Degree degree) {
+        // precondition check
+        Preconditions.checkNotNull(name, firstName, degree);
+        Preconditions.checkArgument(firstName.length() < 10 || name.length() < 10,
+                "The length of the student first name and last name must be within 10 " +
+                                                                                   "characters!!");
+
+        try {
+            // estblish the connection to the directory
+            String jdbc_url = "jdbc:derby:memory:studentdb";
+            Connection connection = DriverManager.getConnection(jdbc_url);
+            // Create a Statement object to execute the query with.
+            Statement statement = connection.createStatement();
+
+            // find the id that is not been used
+            for (int i = availableStudentID_min; i < availableStudentID_max; i++) {
+                String id = "id" + Integer.toString(i);
+                Student currentStudent = StudentManager.readStudent(id);
+                // it is null, which means this
+                if (currentStudent == null) {
+                    //
+                    String sql = "INSERT INTO STUDENTS (id, name, first_name, degree) VALUES ('"
+                                 + id + "', '" + name + "', '" + firstName + "', '"
+                                 + degree.getId() + "')";
+                    statement.executeUpdate(sql);
+
+                    connection.close();// close the connection to save resources
+                    // construct the student object and return it
+                    return new Student(id, name, firstName, degree);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
+
     }
 
     /**
