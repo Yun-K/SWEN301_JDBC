@@ -32,7 +32,7 @@ public class TestStudentManager {
      * Description: <br/>
      * Check whether the fields of Degree object is correct or not. It check the correct degree
      * id .
-     * 
+     *
      * @author Yun Zhou
      */
     @Test
@@ -86,9 +86,9 @@ public class TestStudentManager {
     /**
      * Description: <br/>
      * Test for invalid range of the degree id. Just opposite of the above.
-     * 
-     * @author Yun Zhou
+     *
      * @throws NoSuchRecordException
+     * @author Yun Zhou
      */
     @Test
     public void test_readDegree1() throws NoSuchRecordException {
@@ -116,10 +116,9 @@ public class TestStudentManager {
      * Description: <br/>
      * Test for the valid studnet id. Run 910 times to check whether it will not return a null
      * student object.
-     * 
-     * 
-     * @author Yun Zhou
+     *
      * @throws NoSuchRecordException
+     * @author Yun Zhou
      */
     @Test
     public void test_readStudent() throws NoSuchRecordException {
@@ -145,9 +144,9 @@ public class TestStudentManager {
     /**
      * Description: <br/>
      * Check whether the corresponding fields are the same as the TABLE STUIDENTS.
-     * 
-     * @author Yun Zhou
+     *
      * @throws NoSuchRecordException
+     * @author Yun Zhou
      */
     @Test
     public void test_readStudent1() throws NoSuchRecordException {
@@ -182,9 +181,9 @@ public class TestStudentManager {
     /**
      * Description: <br/>
      * check whether the invalid id will return null Studnet instance.
-     * 
-     * @author Yun Zhou
+     *
      * @throws NoSuchRecordException
+     * @author Yun Zhou
      */
     @Test
     public void test_readStudent2() throws NoSuchRecordException {
@@ -195,7 +194,7 @@ public class TestStudentManager {
             int min = 10000;
             int range = max - min + 1;
 
-            // generate random numbers within 0 to 9999(including)
+            // generate random numbers within 10000 to 99999(including)
             int randomNumber = (int) (Math.random() * range) + min;
 
             String invalidID = "id" + Integer.toString(randomNumber);
@@ -226,23 +225,51 @@ public class TestStudentManager {
     }
 
     @Test
-    public void test_delete() throws Exception {
+    public void test_delete() throws NoSuchRecordException {
+        String student_id = "id0";
+        StudentManager studentManager = new StudentManager();
+        Student student = studentManager.readStudent(student_id);
+        //check the student is exist for now
+        assertNotNull(student);
+
+        // delete the student and
+        // check whether the student has been deleted or not
+        studentManager.delete(student);
+        assertNull(studentManager.readStudent(student_id));
     }
 
     @Test
-    public void test_update() throws Exception {
+    public void test_delete1() throws NoSuchRecordException {
+        String student_id = "id7";
+        StudentManager studentManager = new StudentManager();
+        Student student = studentManager.readStudent(student_id);
+        //check the student is exist for now
+        assertNotNull(student);
+
+        // delete the student and
+        // check whether the student has been deleted or not
+        studentManager.delete(student);
+        assertNull(studentManager.readStudent(student_id));
+
+//        System.out.println("DELETE TEST 1 DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+
+    }
+
+
+    @Test
+    public void test_update() throws NoSuchRecordException {
     }
 
     @Test
-    public void test_createStudent() throws Exception {
+    public void test_createStudent() throws NoSuchRecordException {
     }
 
     @Test
-    public void test_getAllStudentIds() throws Exception {
+    public void test_getAllStudentIds() throws NoSuchRecordException {
     }
 
     @Test
-    public void test_getAllDegreeIds() throws Exception {
+    public void test_getAllDegreeIds() throws NoSuchRecordException {
 
     }
 }

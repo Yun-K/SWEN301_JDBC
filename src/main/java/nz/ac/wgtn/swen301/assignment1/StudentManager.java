@@ -142,7 +142,9 @@ public class StudentManager {
      *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
      */
     public static void delete(Student student) throws NoSuchRecordException {
+        //do the Precondition check
         Preconditions.checkNotNull(student);
+
         String id = student.getId();
         String firstName = student.getFirstName();
         String lastName = student.getName();
