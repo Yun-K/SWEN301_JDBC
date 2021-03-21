@@ -39,14 +39,14 @@ public class StudentManager {
      * do not create a second one.
      *
      * @param id
-     *         the string id to locate the Student object
+     *            the string id to locate the Student object
      * @return the student object with the specified id
      *
      * @throws NoSuchRecordException
-     *         if no record with such an id exists in the database This functionality is to
-     *         be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readStudent
-     *         (followed by optional numbers if multiple tests are used)
+     *             if no record with such an id exists in the database This functionality is to
+     *             be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readStudent
+     *             (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
         try {
@@ -90,14 +90,14 @@ public class StudentManager {
      * do not create a second one.
      *
      * @param id
-     *         the String id that can locate the Degree
+     *            the String id that can locate the Degree
      * @return the Degree object with the specified id
      *
      * @throws NoSuchRecordException
-     *         if no record with such an id exists in the database This functionality is to
-     *         be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readDegree
-     *         (followed by optional numbers if multiple tests are used)
+     *             if no record with such an id exists in the database This functionality is to
+     *             be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readDegree
+     *             (followed by optional numbers if multiple tests are used)
      */
     public static Degree readDegree(String id) throws NoSuchRecordException {
         try {
@@ -110,10 +110,10 @@ public class StudentManager {
             ResultSet resultSet = statement
                     .executeQuery("SELECT * FROM DEGREES WHERE ID = '" + id + "'");
 
-//            if (resultSet == null) {
-//                throw new NoSuchRecordException(
-//                        "We didn't find the degree id: " + id + " in our database. ");
-//            }
+            // if (resultSet == null) {
+            // throw new NoSuchRecordException(
+            // "We didn't find the degree id: " + id + " in our database. ");
+            // }
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -138,14 +138,14 @@ public class StudentManager {
      * with this id will result in a NoSuchRecordException.
      *
      * @param student
-     *         the student object to delete from the database
+     *            the student object to delete from the database
      * @throws NoSuchRecordException
-     *         if no record corresponding to this student instance exists in the database
-     *         This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
+     *             if no record corresponding to this student instance exists in the database
+     *             This functionality is to be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
      */
     public static void delete(Student student) throws NoSuchRecordException {
-        //do the Precondition check
+        // do the Precondition check
         Preconditions.checkNotNull(student);
 
         String id = student.getId();
@@ -160,8 +160,8 @@ public class StudentManager {
 
             statement.executeUpdate(
                     "DELETE FROM STUDENTS WHERE ID='" + id + "'" + " AND " +
-                            "first_name='" + firstName + "'" + " AND name='" + lastName + "'");
-
+                                    "first_name='" + firstName + "'" + " AND name='" + lastName
+                                    + "'");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -178,24 +178,24 @@ public class StudentManager {
      *
      * @param student
      * @throws NoSuchRecordException
-     *         if no record corresponding to this student instance exists in the database
-     *         This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_update
-     *         (followed by optional numbers if multiple tests are used)
+     *             if no record corresponding to this student instance exists in the database
+     *             This functionality is to be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_update
+     *             (followed by optional numbers if multiple tests are used)
      */
     public static void update(Student student) throws NoSuchRecordException {
-        //do the Precondition check
+        // do the Precondition check
         Preconditions.checkNotNull(student);
-        //get the info
+        // get the info
         String id = student.getId();
         String firstName = student.getFirstName();
         String lastName = student.getName();
         Degree degree = student.getDegree();
 
-        //precondition check again
-        Preconditions.checkArgument(firstName.length()<10 || lastName.length()<10 ,
+        // precondition check again
+        Preconditions.checkArgument(firstName.length() < 10 || lastName.length() < 10,
                 "The length of the student first name and last name must be within 10 " +
-                        "characters!!");
+                                                                                       "characters!!");
 
         try {
             // estblish the connection to the directory
@@ -204,12 +204,9 @@ public class StudentManager {
             // Create a Statement object to execute the query with.
             Statement statement = connection.createStatement();
 
-//            String sqlStatement = "UPDATE STUDENTS SET first_name='"+firstName+"', name='"+lastName+
-//                    "'WHERE id='"+id+"'";
             statement.executeUpdate(
-                    "UPDATE STUDENTS SET first_name='"+firstName+"', degree='"+degree+"', " +
-                            "name='"+lastName+"'WHERE id='"+id+"'");
-
+                    "UPDATE STUDENTS SET first_name='" + firstName + "', degree='" + degree.getId()
+                                    + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -228,8 +225,8 @@ public class StudentManager {
      * @param firstName
      * @param degree
      * @return a freshly created student instance This functionality is to be tested in
-     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
-     * (followed by optional numbers if multiple tests are used)
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Student createStudent(String name, String firstName, Degree degree) {
         return null;
@@ -239,34 +236,34 @@ public class StudentManager {
      * Get all student ids currently being used in the database.
      *
      * @return This functionality is to be tested in
-     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllStudentIds
-     * (followed by optional numbers if multiple tests are used)
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllStudentIds
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Collection<String> getAllStudentIds() {
         List<String> used_ids = new LinkedList<String>();
-//
-//        try {
-//            // estblish the connection to the directory
-//            String jdbc_url = "jdbc:derby:memory:studentdb";
-//            Connection connection = DriverManager.getConnection(jdbc_url);
-//            // Create a Statement object to execute the query with.
-//            Statement statement = connection.createStatement();
-//            ResultSet resultSet = statement
-//                    .executeQuery("SELECT * FROM STUDENTS");
-//
-//            // iterate the resultSet until no more rows can be read
-//            while (resultSet.next()) {
-//                // get the corresponding info from the STUDENTS database
-//                String id = resultSet.getString("id");
-//                used_ids.add(id);
-//
-//            }
-//            connection.close();// close connection to save the resourse
-//
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//
+        //
+        // try {
+        // // estblish the connection to the directory
+        // String jdbc_url = "jdbc:derby:memory:studentdb";
+        // Connection connection = DriverManager.getConnection(jdbc_url);
+        // // Create a Statement object to execute the query with.
+        // Statement statement = connection.createStatement();
+        // ResultSet resultSet = statement
+        // .executeQuery("SELECT * FROM STUDENTS");
+        //
+        // // iterate the resultSet until no more rows can be read
+        // while (resultSet.next()) {
+        // // get the corresponding info from the STUDENTS database
+        // String id = resultSet.getString("id");
+        // used_ids.add(id);
+        //
+        // }
+        // connection.close();// close connection to save the resourse
+        //
+        // } catch (SQLException throwables) {
+        // throwables.printStackTrace();
+        // }
+        //
         return used_ids;
     }
 
@@ -274,33 +271,33 @@ public class StudentManager {
      * Get all degree ids currently being used in the database.
      *
      * @return This functionality is to be tested in
-     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllDegreeIds
-     * (followed by optional numbers if multiple tests are used)
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllDegreeIds
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Iterable<String> getAllDegreeIds() {
         List<String> used_ids = new LinkedList<String>();
-//
-//        try {
-//            // estblish the connection to the directory
-//            String jdbc_url = "jdbc:derby:memory:studentdb";
-//            Connection connection = DriverManager.getConnection(jdbc_url);
-//            // Create a Statement object to execute the query with.
-//            Statement statement = connection.createStatement();
-//            ResultSet resultSet = statement.executeQuery("SELECT * FROM DEGREES");
-//
-//            // iterate the resultSet until no more rows can be read
-//            while (resultSet.next()) {
-//                // get the corresponding info from the STUDENTS database
-//                String id = resultSet.getString("id");
-//                used_ids.add(id);
-//
-//            }
-//            connection.close();// close connection to save the resourse
-//
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//
+        //
+        // try {
+        // // estblish the connection to the directory
+        // String jdbc_url = "jdbc:derby:memory:studentdb";
+        // Connection connection = DriverManager.getConnection(jdbc_url);
+        // // Create a Statement object to execute the query with.
+        // Statement statement = connection.createStatement();
+        // ResultSet resultSet = statement.executeQuery("SELECT * FROM DEGREES");
+        //
+        // // iterate the resultSet until no more rows can be read
+        // while (resultSet.next()) {
+        // // get the corresponding info from the STUDENTS database
+        // String id = resultSet.getString("id");
+        // used_ids.add(id);
+        //
+        // }
+        // connection.close();// close connection to save the resourse
+        //
+        // } catch (SQLException throwables) {
+        // throwables.printStackTrace();
+        // }
+        //
         return used_ids;
     }
 
