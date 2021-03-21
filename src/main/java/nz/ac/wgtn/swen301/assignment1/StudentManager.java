@@ -1,7 +1,10 @@
 package nz.ac.wgtn.swen301.assignment1;
 
 import com.google.common.base.Preconditions;
-import nz.ac.wgtn.swen301.studentdb.*;
+import nz.ac.wgtn.swen301.studentdb.Degree;
+import nz.ac.wgtn.swen301.studentdb.NoSuchRecordException;
+import nz.ac.wgtn.swen301.studentdb.Student;
+import nz.ac.wgtn.swen301.studentdb.StudentDB;
 
 import java.sql.*;
 import java.util.Collection;
@@ -181,6 +184,37 @@ public class StudentManager {
      *         (followed by optional numbers if multiple tests are used)
      */
     public static void update(Student student) throws NoSuchRecordException {
+        //do the Precondition check
+        Preconditions.checkNotNull(student);
+        //get the info
+        String id = student.getId();
+        String firstName = student.getFirstName();
+        String lastName = student.getName();
+        Degree degree = student.getDegree();
+
+        //precondition check again
+        Preconditions.checkArgument(firstName.length()<10 || lastName.length()<10 ,
+                "The length of the student first name and last name must be within 10 " +
+                        "characters!!");
+
+        try {
+            // estblish the connection to the directory
+            String jdbc_url = "jdbc:derby:memory:studentdb";
+            Connection connection = DriverManager.getConnection(jdbc_url);
+            // Create a Statement object to execute the query with.
+            Statement statement = connection.createStatement();
+
+//            String sqlStatement = "UPDATE STUDENTS SET first_name='"+firstName+"', name='"+lastName+
+//                    "'WHERE id='"+id+"'";
+            statement.executeUpdate(
+                    "UPDATE STUDENTS SET first_name='"+firstName+"', degree='"+degree+"', " +
+                            "name='"+lastName+"'WHERE id='"+id+"'");
+
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
     /**
