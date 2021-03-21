@@ -229,7 +229,7 @@ public class TestStudentManager {
         String student_id = "id0";
         StudentManager studentManager = new StudentManager();
         Student student = studentManager.readStudent(student_id);
-        //check the student is exist for now
+        // check the student is exist for now
         assertNotNull(student);
 
         // delete the student and
@@ -243,7 +243,7 @@ public class TestStudentManager {
         String student_id = "id7";
         StudentManager studentManager = new StudentManager();
         Student student = studentManager.readStudent(student_id);
-        //check the student is exist for now
+        // check the student is exist for now
         assertNotNull(student);
 
         // delete the student and
@@ -251,13 +251,26 @@ public class TestStudentManager {
         studentManager.delete(student);
         assertNull(studentManager.readStudent(student_id));
 
-//        System.out.println("DELETE TEST 1 DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
+        // System.out.println("DELETE TEST 1 DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
 
     }
 
-
     @Test
     public void test_update() throws NoSuchRecordException {
+        Student student = StudentManager.readStudent("id7");
+        String id = student.getId();
+        String name = student.getName();
+        String firstName = student.getFirstName();
+
+        String new_name = "Zhou";
+        String new_firstName = "Yun";
+        student.setName(new_name);
+        student.setFirstName(new_firstName);
+
+        StudentManager.update(student);
+
+        assert !name.equals(new_name) && !firstName.equals(new_firstName);
+
     }
 
     @Test
