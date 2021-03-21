@@ -34,7 +34,7 @@
       <version>10.14.2.0</version>
     </dependency>
 
-      <!-- local dependency to setup database -->
+       <!-- local dependency to setup database -->
       <dependency>
           <groupId>nz.ac.wgtn.swen301</groupId>
           <artifactId>studentdb</artifactId>
@@ -42,6 +42,16 @@
           <scope>system</scope>
           <systemPath>${project.basedir}/lib/studentdb-1.1.1.jar</systemPath>
       </dependency>
+
+      <!-- local dependency to setup database -->
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava-parent</artifactId>
+          <version>29.0-jre</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/guava-29.0-jre.jar</systemPath>
+      </dependency>
+
 
   </dependencies>
 
