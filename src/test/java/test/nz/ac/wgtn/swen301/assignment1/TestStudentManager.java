@@ -204,6 +204,13 @@ public class TestStudentManager {
 
     }
 
+    /**
+     * Description: <br/>
+     * Test for the performance of my programme is within 1 sec for 1000 random queries.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_performance() throws NoSuchRecordException {
         long before_seconds = System.currentTimeMillis();
@@ -224,40 +231,65 @@ public class TestStudentManager {
 
     }
 
+    /**
+     * Description: <br/>
+     * Test for checking whether the delete Student method is worked.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_delete() throws NoSuchRecordException {
         String student_id = "id0";
-        StudentManager studentManager = new StudentManager();
-        Student student = studentManager.readStudent(student_id);
+
+        Student student = StudentManager.readStudent(student_id);
         // check the student is exist for now
         assertNotNull(student);
 
         // delete the student and
         // check whether the student has been deleted or not
-        studentManager.delete(student);
-        assertNull(studentManager.readStudent(student_id));
+        StudentManager.delete(student);
+        assertNull(StudentManager.readStudent(student_id));
     }
 
+    /**
+     * Description: <br/>
+     * Test for checking whether the delete Student method is worked.
+     *
+     * This test will try to delete all the students and check if it is worked.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_delete1() throws NoSuchRecordException {
         String student_id = "id7";
-        StudentManager studentManager = new StudentManager();
-        Student student = studentManager.readStudent(student_id);
+
+        Student student = StudentManager.readStudent(student_id);
         // check the student is exist for now
         assertNotNull(student);
 
         // delete the student and
         // check whether the student has been deleted or not
-        studentManager.delete(student);
-        assertNull(studentManager.readStudent(student_id));
+        StudentManager.delete(student);
+        assertNull(StudentManager.readStudent(student_id));
 
         // System.out.println("DELETE TEST 1 DONE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11");
 
     }
 
+    /**
+     * Description: <br/>
+     * Test for checking whether update Student test is worked or not.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_update() throws NoSuchRecordException {
         Student student = StudentManager.readStudent("id7");
+        assertNotNull(student);
+
         String id = student.getId();
         String name = student.getName();
         String firstName = student.getFirstName();
@@ -269,7 +301,28 @@ public class TestStudentManager {
 
         StudentManager.update(student);
 
-        assert !name.equals(new_name) && !firstName.equals(new_firstName);
+        assert !name.equals(StudentManager.readStudent(id).getName())
+                && !firstName.equals(StudentManager.readStudent(id).getFirstName());
+    }
+
+    /**
+     * Description: <br/>
+     * Another test for testing update() method is worked.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
+    @Test
+    public void test_update1() throws NoSuchRecordException {
+        Student student = StudentManager.readStudent("id38");
+        assertNotNull(student);
+
+        student.setFirstName("Yun");
+        StudentManager.update(student);
+
+        Student updated_student = StudentManager.readStudent("id38");
+        assertNotNull(updated_student);
+        assertTrue(updated_student.getFirstName().equals("Yun"));
 
     }
 
