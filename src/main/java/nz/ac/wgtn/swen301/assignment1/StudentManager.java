@@ -49,6 +49,7 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
+        Preconditions.checkNotNull(id);
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -57,11 +58,6 @@ public class StudentManager {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement
                     .executeQuery("SELECT * FROM STUDENTS WHERE ID = '" + id + "'");
-
-            // if (resultSet == null) {
-            // throw new NoSuchRecordException(
-            // "We didn't find the student id: " + id + " in our database. ");
-            // }
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -101,6 +97,8 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Degree readDegree(String id) throws NoSuchRecordException {
+        Preconditions.checkNotNull(id);
+
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -110,11 +108,6 @@ public class StudentManager {
 
             ResultSet resultSet = statement
                     .executeQuery("SELECT * FROM DEGREES WHERE ID = '" + id + "'");
-
-            // if (resultSet == null) {
-            // throw new NoSuchRecordException(
-            // "We didn't find the degree id: " + id + " in our database. ");
-            // }
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -152,6 +145,8 @@ public class StudentManager {
         String id = student.getId();
         String firstName = student.getFirstName();
         String lastName = student.getName();
+
+        Preconditions.checkNotNull(id, firstName, lastName);
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -264,21 +259,6 @@ public class StudentManager {
                     // System.out.println("it reaches here???????????????");
                     // construct the student object and return it
                     return new Student(id, name, firstName, degree);
-                } else {
-                    // // debug and try to find my name
-                    // if (currentStudent.getFirstName().equalsIgnoreCase("Yun")
-                    // && currentStudent.getName().equalsIgnoreCase("Zhou")) {
-                    // System.out.println(currentStudent.getId() + "\t" +
-                    // currentStudent.getFirstName()
-                    // + "\t" + currentStudent.getName()
-                    // + "\t" + currentStudent.getDegree().getId());
-                    //
-                    // } else {
-                    // // System.out.println(currentStudent.getId() + "\t" +
-                    // // currentStudent.getFirstName()
-                    // // + "\t" + currentStudent.getName()
-                    // // + "\t" + currentStudent.getDegree().getId());
-                    // }
                 }
             }
 
