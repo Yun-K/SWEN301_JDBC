@@ -367,6 +367,13 @@ public class TestStudentManager {
 
     }
 
+    /**
+     * Description: <br/>
+     * Simple check the student ids are correct by checking the string.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_getAllStudentIds() throws NoSuchRecordException {
         Collection<String> used_ids = StudentManager.getAllStudentIds();
@@ -380,9 +387,49 @@ public class TestStudentManager {
         }
     }
 
+    /**
+     * Description: <br/>
+     * Complex check the student ids collections.
+     * <P>
+     * I check this by first creating a new Student instance and delete one, and then check the
+     * corresponding info has been changed or not, I think I checked everything out.
+     *
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
+    @Test
+    public void test_getAllStudentIds_1() throws NoSuchRecordException {
+        Collection<String> used_studentIDs = StudentManager.getAllStudentIds();
+        assertNotNull(used_studentIDs);
+        assert used_studentIDs.size() > 0;
+
+        // try to create a new student and see whether the list of used_studentIDs is increased
+        Degree degree = StudentManager.readDegree("deg6");
+        int old_size = used_studentIDs.size();
+        StudentManager.createStudent("Y", "Z", degree);// create a new student instance
+        used_studentIDs = StudentManager.getAllStudentIds();// update the collections
+        assertFalse(used_studentIDs.size() == old_size);
+        assertTrue(used_studentIDs.size() > old_size && used_studentIDs.size() - 1 == old_size);
+        // check the id of the new added student instance
+        assertTrue(StudentManager.readStudent("id" + Integer.toString(old_size)).getFirstName()
+                .equals("Z")
+                && StudentManager.readStudent("id" + Integer.toString(old_size)).getName()
+                        .equals("Y"));
+
+        // try to delete a Student from the database
+        old_size = used_studentIDs.size();// update the old size
+        StudentManager.delete(StudentManager.readStudent("id250"));// delete a student
+        used_studentIDs = StudentManager.getAllStudentIds();// update the collections
+        assertFalse(used_studentIDs.size() == old_size);
+        assertTrue(used_studentIDs.size() < old_size && used_studentIDs.size() + 1 == old_size);
+
+        // System.out.println("Get all student ids test 1 is done!!!!!!!!");
+
+    }
+
     @Test
     public void test_getAllDegreeIds() throws NoSuchRecordException {
-        Collection<String> all_degreeID = (Collection<String>) StudentManager.getAllDegreeIds();
+        Collection<String> used_degreeIDs = (Collection<String>) StudentManager.getAllDegreeIds();
 
     }
 }
