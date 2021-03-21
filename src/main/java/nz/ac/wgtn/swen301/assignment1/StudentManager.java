@@ -18,11 +18,11 @@ import java.util.List;
  * @author jens dietrich
  */
 public class StudentManager {
-    /** defind the range of the available student id which is 0 - 9999 */
-    public static final int availableStudentID_min = 0;
+    /** define the range of the available student id which is 0 - 9999 */
+    public static final int beUsedStudentID_min = 0;
 
-    /** defind the range of the available student id which is 0 - 9999 */
-    public static final int availableStudentID_max = 9999;
+    /** define the range of the available student id which is 0 - 9999 */
+    public static final int beUsedStudentID_max = 9999;
 
     // DO NOT REMOVE THE FOLLOWING -- THIS WILL ENSURE THAT THE DATABASE IS AVAILABLE
     // AND THE APPLICATION CAN CONNECT TO IT WITH JDBC
@@ -243,8 +243,9 @@ public class StudentManager {
             // Create a Statement object to execute the query with.
             Statement statement = connection.createStatement();
 
-            // find the id that is not been used
-            for (int i = availableStudentID_min; i < availableStudentID_max; i++) {
+            // find the id that is not been used,start with the beUsedStudentID_max + 1
+            // for (int i = beUsedStudentID_min; i < beUsedStudentID_max + 1; i++) {
+            for (int i = beUsedStudentID_max + 1; i < Integer.MAX_VALUE; i++) {
                 String id = "id" + Integer.toString(i);
                 Student currentStudent = StudentManager.readStudent(id);
                 // it is null, which means this
@@ -254,10 +255,26 @@ public class StudentManager {
                                  + id + "', '" + name + "', '" + firstName + "', '"
                                  + degree.getId() + "')";
                     statement.executeUpdate(sql);
-
                     connection.close();// close the connection to save resources
+
+                    // System.out.println("it reaches here???????????????");
                     // construct the student object and return it
                     return new Student(id, name, firstName, degree);
+                } else {
+                    // // debug and try to find my name
+                    // if (currentStudent.getFirstName().equalsIgnoreCase("Yun")
+                    // && currentStudent.getName().equalsIgnoreCase("Zhou")) {
+                    // System.out.println(currentStudent.getId() + "\t" +
+                    // currentStudent.getFirstName()
+                    // + "\t" + currentStudent.getName()
+                    // + "\t" + currentStudent.getDegree().getId());
+                    //
+                    // } else {
+                    // // System.out.println(currentStudent.getId() + "\t" +
+                    // // currentStudent.getFirstName()
+                    // // + "\t" + currentStudent.getName()
+                    // // + "\t" + currentStudent.getDegree().getId());
+                    // }
                 }
             }
 

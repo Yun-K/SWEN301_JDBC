@@ -125,8 +125,8 @@ public class TestStudentManager {
         // random check
         for (int i = 0; i < 910; i++) {
             // define the range
-            int max = StudentManager.availableStudentID_max;
-            int min = StudentManager.availableStudentID_min;
+            int max = StudentManager.beUsedStudentID_max;
+            int min = StudentManager.beUsedStudentID_min;
             int range = max - min + 1;
 
             // generate random numbers within 0 to 9999(including)
@@ -330,8 +330,38 @@ public class TestStudentManager {
 
     }
 
+    /**
+     * Description: <br/>
+     * Use several different ways to check whether Student instance has been created
+     * successfully as well as to check whether the created student instance has been inserted
+     * into the STUDENTS table or not.
+     * 
+     * @author Yun Zhou
+     * @throws NoSuchRecordException
+     */
     @Test
     public void test_createStudent() throws NoSuchRecordException {
+        Degree degree = StudentManager.readDegree("deg3");
+        assertNotNull(degree);
+
+        Student new_student = StudentManager.createStudent("Zhou", "Yun", degree);
+        assertNotNull(new_student);
+
+        // read id from above and check whether it's exist in the STUDENTS database
+        Student student_fromDataBase = StudentManager.readStudent(new_student.getId());
+        assertNotNull(student_fromDataBase);
+
+        // check if two student instances are equal
+        assertTrue(new_student.equals(student_fromDataBase));
+
+        // check whether the name and first name of the inserted student is correct
+        assertTrue(student_fromDataBase.getFirstName().equals("Yun")
+                && student_fromDataBase.getName().equals("Zhou"));
+
+        // check the degree
+        assert student_fromDataBase.getDegree().getId().equals("deg3")
+                && student_fromDataBase.getDegree().getName().equals("BE Software Engineering");
+
     }
 
     @Test
