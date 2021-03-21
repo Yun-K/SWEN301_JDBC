@@ -298,29 +298,28 @@ public class StudentManager {
      */
     public static Collection<String> getAllStudentIds() {
         List<String> used_ids = new LinkedList<String>();
-        //
-        // try {
-        // // estblish the connection to the directory
-        // String jdbc_url = "jdbc:derby:memory:studentdb";
-        // Connection connection = DriverManager.getConnection(jdbc_url);
-        // // Create a Statement object to execute the query with.
-        // Statement statement = connection.createStatement();
-        // ResultSet resultSet = statement
-        // .executeQuery("SELECT * FROM STUDENTS");
-        //
-        // // iterate the resultSet until no more rows can be read
-        // while (resultSet.next()) {
-        // // get the corresponding info from the STUDENTS database
-        // String id = resultSet.getString("id");
-        // used_ids.add(id);
-        //
-        // }
-        // connection.close();// close connection to save the resourse
-        //
-        // } catch (SQLException throwables) {
-        // throwables.printStackTrace();
-        // }
-        //
+
+        try {
+            // estblish the connection to the directory
+            String jdbc_url = "jdbc:derby:memory:studentdb";
+            Connection connection = DriverManager.getConnection(jdbc_url);
+            // Create a Statement object to execute the query with.
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM STUDENTS");
+
+            // iterate the resultSet until no more rows can be read
+            while (resultSet.next()) {
+                // get the corresponding info from the STUDENTS database
+                String id = resultSet.getString("id");
+                used_ids.add(id);
+
+            }
+            connection.close();// close connection to save the resourse
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         return used_ids;
     }
 
@@ -333,28 +332,28 @@ public class StudentManager {
      */
     public static Iterable<String> getAllDegreeIds() {
         List<String> used_ids = new LinkedList<String>();
-        //
-        // try {
-        // // estblish the connection to the directory
-        // String jdbc_url = "jdbc:derby:memory:studentdb";
-        // Connection connection = DriverManager.getConnection(jdbc_url);
-        // // Create a Statement object to execute the query with.
-        // Statement statement = connection.createStatement();
-        // ResultSet resultSet = statement.executeQuery("SELECT * FROM DEGREES");
-        //
-        // // iterate the resultSet until no more rows can be read
-        // while (resultSet.next()) {
-        // // get the corresponding info from the STUDENTS database
-        // String id = resultSet.getString("id");
-        // used_ids.add(id);
-        //
-        // }
-        // connection.close();// close connection to save the resourse
-        //
-        // } catch (SQLException throwables) {
-        // throwables.printStackTrace();
-        // }
-        //
+
+        try {
+            // estblish the connection to the directory
+            String jdbc_url = "jdbc:derby:memory:studentdb";
+            Connection connection = DriverManager.getConnection(jdbc_url);
+            // Create a Statement object to execute the query with.
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM DEGREES");
+
+            // iterate the resultSet until no more rows can be read
+            while (resultSet.next()) {
+                // get the corresponding info from the STUDENTS database
+                String id = resultSet.getString("id");
+                used_ids.add(id);
+
+            }
+            connection.close();// close connection to save the resourse
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         return used_ids;
     }
 
