@@ -17,7 +17,7 @@ public class FindStudentDetails {
      * I use the putty to connect to the my school account and run the command below,
      * it can run successfully.(maybe you can just replace zhouyun to your username.
      *
-     * java -cp /am/st-james/home1/zhouyun/git/Assignment1/target/classes:/am/st-james/home1/zhouyun/git/Assignment1/lib/studentdb-1.1.1.jar:/am/st-james/home1/zhouyun/git/Assignment1/lib/guava-29.0-jre.jar:/am/st-james/home1/zhouyun/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar nz.ac.wgtn.swen301.assignment1.cli.FindStudentDetails id42
+     * java -cp /am/st-james/home1/zhouyun/git/Assignment1/target/classes:/am/st-james/home1/zhouyun/git/Assignment1/lib/studentdb-1.1.1.jar:/am/st-james/home1/zhouyun/.m2/repository/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar:/am/st-james/home1/zhouyun/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar nz.ac.wgtn.swen301.assignment1.cli.FindStudentDetails id42
      *
      * @param arg
      *            arguments that is entered by the user. e.g.the student id: id42
