@@ -43,15 +43,13 @@
           <systemPath>${project.basedir}/lib/studentdb-1.1.1.jar</systemPath>
       </dependency>
 
-      <!-- local dependency to setup database -->
+      <!--replace the local dependency of the guava library to the normal internet one -->
+      <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
       <dependency>
           <groupId>com.google.guava</groupId>
-          <artifactId>guava-parent</artifactId>
-          <version>29.0-jre</version>
-          <scope>system</scope>
-          <systemPath>${project.basedir}/lib/guava-29.0-jre.jar</systemPath>
+          <artifactId>guava</artifactId>
+          <version>30.1.1-jre</version>
       </dependency>
-
 
   </dependencies>
 
