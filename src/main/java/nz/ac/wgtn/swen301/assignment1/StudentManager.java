@@ -24,6 +24,11 @@ public class StudentManager {
     /** define the range of the available student id which is 0 - 9999 */
     public static final int beUsedStudentID_max = 9999;
 
+    private static final String[] DEGREE_NAMES = new String[]{"BSc Computer Science", "BSc Computer " +
+            "Graphics",
+            "BE Cybersecurity", "BE Software Engineering", "BSc Mathematics", "BSc Chemistry",
+            "BA Art", "BA Philosophy", "BCom Finance", "BCom Marketing"};
+
     // DO NOT REMOVE THE FOLLOWING -- THIS WILL ENSURE THAT THE DATABASE IS AVAILABLE
     // AND THE APPLICATION CAN CONNECT TO IT WITH JDBC
     static {
@@ -59,8 +64,8 @@ public class StudentManager {
 
         try {
             // estblish the connection to the directory
-            String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+//            String jdbc_url = "jdbc:derby:memory:studentdb";
+            Connection connection = DriverManager.getConnection("jdbc:derby:memory:studentdb");
             // Create a Statement object to execute the query with.
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement
@@ -73,10 +78,13 @@ public class StudentManager {
                 String name = resultSet.getString("name");
                 String degreeID = resultSet.getString("degree");
 
+                String degreeName = DEGREE_NAMES[Integer.parseInt(degreeID.substring(3,
+                        degreeID.length()))];
                 // construct the degree object by passing the degreeID variable
-                Degree degree = StudentManager.readDegree(degreeID);
+//                Degree degree = StudentManager.readDegree(degreeID);
+
                 // construct the student object and return it
-                Student student = new Student(id, name, first_name, degree);
+                Student student = new Student(id, name, first_name, new Degree(degreeID,degreeName));
                 connection.close();// close connection to save the resourse
                 return student;
             }

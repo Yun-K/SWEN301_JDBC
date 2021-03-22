@@ -192,8 +192,8 @@ public class TestStudentManager {
         // random check
         for (int i = 0; i < 910; i++) {
             // define the range
-            int max = 99999;
-            int min = 10000;
+            int max = Integer.MAX_VALUE;
+            int min = 1000000;
             int range = max - min + 1;
 
             // generate random numbers within 10000 to 99999(including)
@@ -211,26 +211,48 @@ public class TestStudentManager {
      * Test for the performance of my programme is within 1 sec for 1000 random queries.
      * 
      * @author Yun Zhou
-     * @throws NoSuchRecordException
+     * @throws Exception
      */
     @Test
-    public void test_performance() throws NoSuchRecordException {
-        long before_seconds = System.currentTimeMillis();
-        // run 1000 random read queries
-        for (int i = 0; i < 1000; i++) {
+    public void test_performance() throws Exception {
+        for(int time = 0; time < 10; time++){
+            long before_seconds = System.currentTimeMillis();
+            // run 1000 random read queries
+            for (int i = 0; i < 1000; i++) {
+                // generate random numbers within 0 to 9(including)
+                int randomNumber = (int) (Math.random() * 10);
+                String degreeID = "deg" + randomNumber;
+                StudentManager.readDegree(degreeID);
+            }
 
-            // generate random numbers within 0 to 9(including)
-            int randomNumber = (int) (Math.random() * 10) + 0;
-            String degreeID = "deg" + Integer.toString(randomNumber);
-            StudentManager.readDegree(degreeID);
+            long after_seconds = System.currentTimeMillis();
+            long diff = after_seconds - before_seconds;
+            System.out.println(
+                    "1000 DEGREE queries runs " + diff + " milliseconds" +
+                            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            assert diff > 0 && diff < 1000;
         }
 
-        long after_seconds = System.currentTimeMillis();
-        long diff = after_seconds - before_seconds;
-        System.out.println(
-                "1000 queries runs " + diff + " milliseconds!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        assert diff > 0 && diff < 1000;
+        for (int time = 0; time < 90; time++) {
 
+            long before_seconds = System.currentTimeMillis();
+            // run 1000 random read queries
+            for (int i = 0; i < 1000; i++) {
+                // generate random numbers within 0 to 9(including)
+//            int randomNumber = (int) (Math.random() * 10) ;
+                String studentID = "id" + i;
+                StudentManager.readStudent(studentID);
+            }
+
+            long after_seconds = System.currentTimeMillis();
+            long diff = after_seconds - before_seconds;
+            System.out.println(
+                    "STUDENT: 1000 queries runs " + diff + " milliseconds" +
+                            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            assert diff > 0 && diff < 1000;
+
+
+        }
     }
 
     /**
