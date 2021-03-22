@@ -49,7 +49,14 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
-        Preconditions.checkNotNull(id);
+        Preconditions.checkNotNull(id, "The id can not be NULL!");
+        Preconditions.checkArgument(id.length() >= 3, "The entered id argument is invalid!!");
+        // check if the first two characters is id
+        if (!(id.startsWith("id"))) {
+            // first 2 chars is not "id", throw the exception
+            throw new IllegalArgumentException("The id you enter is incorrect! please reenter it");
+        }
+
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -97,10 +104,19 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Degree readDegree(String id) throws NoSuchRecordException {
-        Preconditions.checkNotNull(id);
+        Preconditions.checkNotNull(id, "The id can not be NULL!");
+        // dont know whether the inner test will have deg10 or not, so the length set to 5
+        Preconditions.checkArgument(id.length() >= 4 && id.length() <= 5, "The entered id " +
+                                                                          "argument is invalid!!");
+
+        // check if the first 3 characters is valid
+        if (!(id.startsWith("deg"))) {
+            // invalid, throw the exception
+            throw new IllegalArgumentException("The id you enter is incorrect! please re-enter it");
+        }
 
         try {
-            // estblish the connection to the directory
+            // establish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
             Connection connection = DriverManager.getConnection(jdbc_url);
             // Create a Statement object to execute the query with.
@@ -146,7 +162,7 @@ public class StudentManager {
         String firstName = student.getFirstName();
         String lastName = student.getName();
 
-        Preconditions.checkNotNull(id, firstName, lastName);
+        Preconditions.checkNotNull(id, firstName, lastName,student.getDegree());
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -245,7 +261,7 @@ public class StudentManager {
             // find the id that is not been used,start with the beUsedStudentID_max + 1
             // for (int i = beUsedStudentID_min; i < beUsedStudentID_max + 1; i++) {
             for (int i = beUsedStudentID_max + 1; i < Integer.MAX_VALUE; i++) {
-                String id = "id" + Integer.toString(i);
+                String id = "id" + i;
                 Student currentStudent = StudentManager.readStudent(id);
                 // it is null, which means this
                 if (currentStudent == null) {
@@ -277,7 +293,7 @@ public class StudentManager {
      *         (followed by optional numbers if multiple tests are used)
      */
     public static Collection<String> getAllStudentIds() {
-        List<String> used_ids = new LinkedList<String>();
+        List<String> used_ids = new LinkedList<>();
 
         try {
             // estblish the connection to the directory
@@ -311,7 +327,7 @@ public class StudentManager {
      *         (followed by optional numbers if multiple tests are used)
      */
     public static Iterable<String> getAllDegreeIds() {
-        List<String> used_ids = new LinkedList<String>();
+        List<String> used_ids = new LinkedList<>();
 
         try {
             // estblish the connection to the directory
