@@ -215,7 +215,8 @@ public class TestStudentManager {
      */
     @Test
     public void test_performance() throws Exception {
-        for(int time = 0; time < 10; time++){
+        // test the readRegree
+        for (int time = 0; time < 11; time++) {
             long before_seconds = System.currentTimeMillis();
             // run 1000 random read queries
             for (int i = 0; i < 1000; i++) {
@@ -229,18 +230,18 @@ public class TestStudentManager {
             long diff = after_seconds - before_seconds;
             System.out.println(
                     "1000 DEGREE queries runs " + diff + " milliseconds" +
-                            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                               "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             assert diff > 0 && diff < 1000;
         }
 
-        for (int time = 0; time < 90; time++) {
-
+        // test the readStudent
+        for (int time = 0; time < 10; time++) {
             long before_seconds = System.currentTimeMillis();
             // run 1000 random read queries
             for (int i = 0; i < 1000; i++) {
-                // generate random numbers within 0 to 9(including)
-//            int randomNumber = (int) (Math.random() * 10) ;
-                String studentID = "id" + i;
+                // generate random numbers within 0 to 1900(including)
+                int randomNumber = (int) (Math.random() * 1900);
+                String studentID = "id" + randomNumber;
                 StudentManager.readStudent(studentID);
             }
 
@@ -248,11 +249,25 @@ public class TestStudentManager {
             long diff = after_seconds - before_seconds;
             System.out.println(
                     "STUDENT: 1000 queries runs " + diff + " milliseconds" +
-                            "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                               "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             assert diff > 0 && diff < 1000;
-
-
         }
+
+        // test the getAllDegreeId
+        for (int time = 0; time < 10; time++) {
+            long before_seconds = System.currentTimeMillis();
+            for (int i = 0; i < 1000; i++) {
+                // StudentManager.getAllStudentIds();
+                StudentManager.getAllDegreeIds();
+            }
+            long after_seconds = System.currentTimeMillis();
+            long diff = after_seconds - before_seconds;
+            System.out.println(
+                    "Collections: 1000 queries runs " + diff + " milliseconds" +
+                               "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            assert diff > 0 && diff < 1000;
+        }
+
     }
 
     /**
