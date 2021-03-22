@@ -24,10 +24,10 @@ public class StudentManager {
     /** define the range of the available student id which is 0 - 9999 */
     public static final int beUsedStudentID_max = 9999;
 
-    private static final String[] DEGREE_NAMES = new String[]{"BSc Computer Science", "BSc Computer " +
-            "Graphics",
-            "BE Cybersecurity", "BE Software Engineering", "BSc Mathematics", "BSc Chemistry",
-            "BA Art", "BA Philosophy", "BCom Finance", "BCom Marketing"};
+    private static final String[] DEGREE_NAMES = new String[] { "BSc Computer Science",
+            "BSc Computer " + "Graphics", "BE Cybersecurity", "BE Software Engineering",
+            "BSc Mathematics", "BSc Chemistry", "BA Art", "BA Philosophy", "BCom Finance",
+            "BCom Marketing" };
 
     // DO NOT REMOVE THE FOLLOWING -- THIS WILL ENSURE THAT THE DATABASE IS AVAILABLE
     // AND THE APPLICATION CAN CONNECT TO IT WITH JDBC
@@ -64,12 +64,20 @@ public class StudentManager {
 
         try {
             // estblish the connection to the directory
-//            String jdbc_url = "jdbc:derby:memory:studentdb";
             Connection connection = DriverManager.getConnection("jdbc:derby:memory:studentdb");
+
             // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement
-                    .executeQuery("SELECT * FROM STUDENTS WHERE ID = '" + id + "'");
+            // Statement statement = connection.createStatement();
+            // ResultSet resultSet = statement.executeQuery("SELECT * FROM STUDENTS WHERE ID =
+            // '" + id + "'");
+
+            // create a preparedStatement object to execute the query with
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM " +
+                                                                             "STUDENTS WHERE ID =" +
+                                                                             " ?");
+            // set the argument in order to execute the sql query
+            prepareStatement.setString(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -81,10 +89,11 @@ public class StudentManager {
                 String degreeName = DEGREE_NAMES[Integer.parseInt(degreeID.substring(3,
                         degreeID.length()))];
                 // construct the degree object by passing the degreeID variable
-//                Degree degree = StudentManager.readDegree(degreeID);
+                // Degree degree = StudentManager.readDegree(degreeID);
 
                 // construct the student object and return it
-                Student student = new Student(id, name, first_name, new Degree(degreeID,degreeName));
+                Student student = new Student(id, name, first_name,
+                        new Degree(degreeID, degreeName));
                 connection.close();// close connection to save the resourse
                 return student;
             }
@@ -127,11 +136,19 @@ public class StudentManager {
             // establish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
             Connection connection = DriverManager.getConnection(jdbc_url);
-            // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
 
-            ResultSet resultSet = statement
-                    .executeQuery("SELECT * FROM DEGREES WHERE ID = '" + id + "'");
+            // create a preparedStatement object to execute the query with
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM " +
+                                                                             "DEGREES WHERE ID =" +
+                                                                             " ?");
+            // set the argument in order to execute the sql query
+            prepareStatement.setString(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
+
+            // // Create a Statement object to execute the query with.
+            // Statement statement = connection.createStatement();
+            // ResultSet resultSet = statement
+            // .executeQuery("SELECT * FROM DEGREES WHERE ID = '" + id + "'");
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -170,7 +187,7 @@ public class StudentManager {
         String firstName = student.getFirstName();
         String lastName = student.getName();
 
-        Preconditions.checkNotNull(id, firstName, lastName,student.getDegree());
+        Preconditions.checkNotNull(id, firstName, lastName, student.getDegree());
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -307,9 +324,16 @@ public class StudentManager {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
             Connection connection = DriverManager.getConnection(jdbc_url);
+
+            // create a preparedStatement object to execute the query with
+            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM " +
+                                                                             "STUDENTS");
+            // set the argument in order to execute the sql query
+            ResultSet resultSet = prepareStatement.executeQuery();
+
             // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM STUDENTS");
+            // Statement statement = connection.createStatement();
+            // ResultSet resultSet = statement.executeQuery("SELECT * FROM STUDENTS");
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -341,9 +365,16 @@ public class StudentManager {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
             Connection connection = DriverManager.getConnection(jdbc_url);
+
+            // create a preparedStatement object to execute the query with
+            PreparedStatement prepareStatement = connection
+                    .prepareStatement("SELECT * FROM DEGREES");
+            // set the argument in order to execute the sql query
+            ResultSet resultSet = prepareStatement.executeQuery();
+
             // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM DEGREES");
+            // Statement statement = connection.createStatement();
+            // ResultSet resultSet = statement.executeQuery("SELECT * FROM DEGREES");
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
