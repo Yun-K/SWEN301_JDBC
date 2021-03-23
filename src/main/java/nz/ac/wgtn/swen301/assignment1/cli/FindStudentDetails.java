@@ -15,8 +15,10 @@ public class FindStudentDetails {
      * "java -cp <someclasspath> nz.ac.wgtn.swen301.assignment1.cli.FindStudentDetails id42"
      *
      * I use the putty to connect to the my school account and run the command below,
-     * it can run successfully.(maybe you can just replace zhouyun to your username.
-     *
+     * it can run successfully. Maybe you can just replace zhouyun to your username.
+     * (HINT: The command: mvn compile MUST run first then run the java cp command, or otherwise
+     * just run the java cp will cause the failure.
+     * <p>
      * java -cp /am/st-james/home1/zhouyun/git/Assignment1/target/classes:/am/st-james/home1/zhouyun/git/Assignment1/lib/studentdb-1.1.1.jar:/am/st-james/home1/zhouyun/.m2/repository/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar:/am/st-james/home1/zhouyun/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar nz.ac.wgtn.swen301.assignment1.cli.FindStudentDetails id42
      *
      * @param arg
@@ -33,16 +35,18 @@ public class FindStudentDetails {
             System.out.println("Please enter the argument and try again.");
             throw new NullPointerException("Please enter the id argument.");
         }
-
-        String student_id = arg[0];//only read the first argument
-        Student student = StudentManager.readStudent(student_id);
-        if (student != null) {
-            System.out.println("student ID:\t"+ student.getId() );
-            System.out.println("First Name:\t " + student.getFirstName());
-            System.out.println("Last Name:\t" + student.getName() );
-            System.out.println("Degree ID:\t" + student.getDegree().getId());
-            System.out.println("Degree Name:\t" + student.getDegree().getName());
+        try {
+            String student_id = arg[0];//only read the first argument
+            Student student = StudentManager.readStudent(student_id);
+            if (student != null) {
+                System.out.println("student ID:\t" + student.getId());
+                System.out.println("First Name:\t " + student.getFirstName());
+                System.out.println("Last Name:\t" + student.getName());
+                System.out.println("Degree ID:\t" + student.getDegree().getId());
+                System.out.println("Degree Name:\t" + student.getDegree().getName());
+            }
+        }catch (NoSuchRecordException e){
+            e.printStackTrace();
         }
-
     }
 }
