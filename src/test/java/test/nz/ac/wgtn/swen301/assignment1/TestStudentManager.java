@@ -215,21 +215,26 @@ public class TestStudentManager {
         try {
             StudentManager.readStudent("id-1");
         }catch (IllegalArgumentException e){
-            e.printStackTrace();
-            System.out.println("the argument you entered is invalid!");
+
+            System.out.println("Successfully catch the  invalid argument. The test pass " +
+                    "successfully");
         }
 
         try {
             StudentManager.readStudent("ws21");
         }catch (IllegalArgumentException e){
-            e.printStackTrace();
-            System.out.println("the argument you entered is invalid!");
+
+            System.out.println("Successfully catch the  invalid argument. The test pass " +
+                    "successfully");
         }
 
         try {
             StudentManager.readStudent(null);
         }catch (NullPointerException e){
-            e.printStackTrace();
+
+            System.out.println("Successfully catch the  invalid argument. The test pass " +
+                    "successfully");
+
         }
         // System.out.println("Done");
     }
