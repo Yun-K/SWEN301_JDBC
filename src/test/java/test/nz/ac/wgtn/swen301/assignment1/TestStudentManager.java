@@ -207,6 +207,33 @@ public class TestStudentManager {
     }
 
     /**
+     * Test for checking invalid args.
+     * @throws NoSuchRecordException
+     */
+    @Test
+    public void test_readStudent3() throws NoSuchRecordException {
+        try {
+            StudentManager.readStudent("id-1");
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            System.out.println("the argument you entered is invalid!");
+        }
+
+        try {
+            StudentManager.readStudent("ws21");
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            System.out.println("the argument you entered is invalid!");
+        }
+
+        try {
+            StudentManager.readStudent(null);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        // System.out.println("Done");
+    }
+    /**
      * Description: <br/>
      * Test for the performance of my programme is within 1 sec for 1000 random queries.
      * 
@@ -215,6 +242,8 @@ public class TestStudentManager {
      */
     @Test
     public void test_performance() throws Exception {
+        StudentManager studentManager = new StudentManager();//load the class first
+
         // test the readRegree
         for (int time = 0; time < 11; time++) {
             long before_seconds = System.currentTimeMillis();
