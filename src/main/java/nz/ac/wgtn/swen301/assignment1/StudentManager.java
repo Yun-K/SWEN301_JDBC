@@ -27,7 +27,7 @@ public class StudentManager {
             "BSc Mathematics", "BSc Chemistry", "BA Art", "BA Philosophy", "BCom Finance",
             "BCom Marketing" };
 
-    private static HashMap<String, Student> id_student_map = new HashMap<>();
+    // private static HashMap<String, Student> id_student_map = new HashMap<>();
 
     // DO NOT REMOVE THE FOLLOWING -- THIS WILL ENSURE THAT THE DATABASE IS AVAILABLE
     // AND THE APPLICATION CAN CONNECT TO IT WITH JDBC
@@ -61,10 +61,10 @@ public class StudentManager {
             // first 2 chars is not "id", throw the exception
             throw new IllegalArgumentException("The id you enter is incorrect! please reenter it");
         }
-        //return it if it's in the hashMap cache
-        if (id_student_map.containsKey("id")){return id_student_map.get(id);}
+        // return it if it's in the hashMap cache
+        // if (id_student_map.containsKey(id)){return id_student_map.get(id);}
 
-        String degreeName = null;//store the degree.name
+        String degreeName = null;// store the degree.name
         try {
             // estblish the connection to the directory
             Connection connection = DriverManager.getConnection("jdbc:derby:memory:studentdb");
@@ -88,16 +88,22 @@ public class StudentManager {
                 String first_name = resultSet.getString("first_name");
                 String name = resultSet.getString("name");
                 String degreeID = resultSet.getString("degree");
-                //get the integer of the id
+                // get the integer of the id
                 int index_degree = Integer.parseInt(degreeID.substring(3, degreeID.length()));
-                //the id can not less than 1
-                if(index_degree < 0){return null;}
-                // in the case of the teacher is so dog to change the Degree database to add the
-                // 10th degree, readDegree() is needed (OK, i'm so dog as well because i copy the
-                // degree database into this class. Doge.jpg )
-                else if (index_degree>9){degreeName = readDegree(degreeID).getName();}
-                //assign it from the array which is the normal case
-                else{degreeName = DEGREE_NAMES[index_degree];}
+                // the id can not less than 1
+                if (index_degree < 0) {
+                    return null;
+                }
+                // in the case of the teacher is so dog to change the Degree database to add
+                // the 10th degree, readDegree() is needed (OK, i'm so dog as well because i
+                // copy the degree database into this class. Doge.jpg )
+                else if (index_degree > 9) {
+                    degreeName = readDegree(degreeID).getName();
+                }
+                // assign it from the array which is the normal case
+                else {
+                    degreeName = DEGREE_NAMES[index_degree];
+                }
 
                 // construct the degree object by passing the degreeID variable
                 // Degree degree = StudentManager.readDegree(degreeID);
@@ -105,7 +111,7 @@ public class StudentManager {
                 // construct the student object and return it
                 Student student = new Student(id, name, first_name,
                         new Degree(degreeID, degreeName));
-                id_student_map.put(id,student);
+                // id_student_map.put(id,student);
 
                 connection.close();// close connection to save the resourse
                 return student;
@@ -213,10 +219,10 @@ public class StudentManager {
                                     "first_name='" + firstName + "'" + " AND name='" + lastName
                                     + "'");
 
-            if (id_student_map.containsKey(id)){
-                //delete it from the hashMap
-                id_student_map.remove(id,student);
-            }
+            // if (id_student_map.containsKey(id)){
+            // //delete it from the hashMap
+            // id_student_map.remove(id,student);
+            // }
 
             connection.close();// close the connection to save resources
         } catch (SQLException throwables) {
@@ -264,7 +270,7 @@ public class StudentManager {
             statement.executeUpdate(
                     "UPDATE STUDENTS SET first_name='" + firstName + "', degree='" + degree.getId()
                                     + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
-            id_student_map.put(id,student);
+            // id_student_map.put(id,student);
 
             connection.close();// close the connection to save resources
         } catch (SQLException throwables) {
@@ -321,7 +327,7 @@ public class StudentManager {
                     // System.out.println("it reaches here???????????????");
                     // construct the student object and return it
                     Student student = new Student(id, name, firstName, degree);
-                    id_student_map.put("id",student);
+                    // id_student_map.put(id,student);
                     return student;
                 }
             }
@@ -341,7 +347,7 @@ public class StudentManager {
      *         (followed by optional numbers if multiple tests are used)
      */
     public static Collection<String> getAllStudentIds() {
-        List<String>used_student_ids = new LinkedList<>();
+        List<String> used_student_ids = new LinkedList<>();
 
         try {
             // estblish the connection to the directory
