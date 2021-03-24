@@ -16,11 +16,7 @@ import java.util.*;
  * @author jens dietrich
  */
 public class StudentManager {
-    /** define the range of the available student id which is 0 - 9999 */
-    public static final int beUsedStudentID_min = 0;
-
-    /** define the range of the available student id which is 0 - 9999 */
-    public static final int beUsedStudentID_max = 9999;
+    
 
     private static final String[] DEGREE_NAMES = new String[] {"BSc Computer Science",
             "BSc Computer " + "Graphics", "BE Cybersecurity", "BE Software Engineering",
@@ -331,6 +327,12 @@ public class StudentManager {
 
         Statement statement = null;
         Connection connection = null;
+        
+        //get the last id from the used_student ids, and assign the next unused one
+        LinkedList<String>used_studentID = (LinkedList<String>) getAllStudentIds();
+        int nextUnUsedID = 1 + Integer.valueOf(used_studentID.getLast().substring(2));
+
+        String id = "id"+ nextUnUsedID;
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -338,27 +340,22 @@ public class StudentManager {
             // Create a Statement object to execute the query with.
             statement = connection.createStatement();
 
-            // find the id that is not been used,start with the beUsedStudentID_max + 1
+         // find the id that is not been used,start with the beUsedStudentID_max + 1
             // for (int i = beUsedStudentID_min; i < beUsedStudentID_max + 1; i++) {
-            for (int i = beUsedStudentID_max + 1; i < Integer.MAX_VALUE; i++) {
-                String id = "id" + i;
-                Student currentStudent = StudentManager.readStudent(id);
-                // it is null, which means this
-                if (currentStudent == null) {
-                    // add it into the STUDENTS table
-                    String sql = "INSERT INTO STUDENTS (id, name, first_name, degree) VALUES ('"
-                            + id + "', '" + name + "', '" + firstName + "', '"
-                            + degree.getId() + "')";
-                    statement.executeUpdate(sql);
-                    connection.close();// close the connection to save resources
 
-                    // System.out.println("it reaches here???????????????");
-                    // construct the student object and return it
-                    Student student = new Student(id, name, firstName, degree);
-                    // id_student_map.put(id,student);
-                    return student;
-                }
-            }
+            // add it into the STUDENTS table
+            String sql = "INSERT INTO STUDENTS (id, name, first_name, degree) VALUES ('"
+                         + id + "', '" + name + "', '" + firstName + "', '"
+                         + degree.getId() + "')";
+            statement.executeUpdate(sql);
+            connection.close();// close the connection to save resources
+
+            // System.out.println("it reaches here???????????????");
+            // construct the student object and return it
+            Student student = new Student(id, name, firstName, degree);
+            // id_student_map.put(id,student);
+            return student;
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -411,6 +408,15 @@ public class StudentManager {
         } finally {
             closeResources(prepareStatement, resultSet, connection, null);
         }
+        
+      //sort it
+        Collections.sort(used_student_ids, ((o1, o2) -> {
+            if(Integer.valueOf(o1.substring(2))<Integer.valueOf(o2.substring(2))){
+                //sort it like id0, id1, id2 etc
+                return -1;
+            }
+            return  1;
+        }));
 
         return used_student_ids;
     }
@@ -456,6 +462,14 @@ public class StudentManager {
         } finally {
             closeResources(prepareStatement, resultSet, connection, null);
         }
+        
+        Collections.sort(used_ids, ((o1, o2) -> {
+            if(Integer.valueOf(o1.substring(3))<Integer.valueOf(o2.substring(3))){
+                //sort it like deg0, deg1, deg2 etc
+                return -1;
+            }
+            return  1;
+        }));
 
         return used_ids;
     }
