@@ -54,13 +54,12 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
+        // precondition check
+        // check if  the id is a valid argument or not
         Preconditions.checkNotNull(id, "The id can not be NULL!");
-        Preconditions.checkArgument(id.length() >= 3, "The entered id argument is invalid!!");
-        // check if the first two characters is id
-        if (!(id.startsWith("id"))) {
-            // first 2 chars is not "id", throw the exception
-            throw new IllegalArgumentException("The id you enter is incorrect! please reenter it");
-        }
+        Preconditions.checkArgument(id.length() >= 3 && id.startsWith("id"),
+                "The entered id argument is invalid!!");
+
         // return it if it's in the hashMap cache
         // if (id_student_map.containsKey(id)){return id_student_map.get(id);}
 
@@ -117,8 +116,8 @@ public class StudentManager {
                 return student;
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;
@@ -140,16 +139,19 @@ public class StudentManager {
      *             (followed by optional numbers if multiple tests are used)
      */
     public static Degree readDegree(String id) throws NoSuchRecordException {
+        //do the precondition to  check whether the entered id is valid or not
         Preconditions.checkNotNull(id, "The id can not be NULL!");
-        // dont know whether the inner test will have deg10 or not, so the length set to 5
-        Preconditions.checkArgument(id.length() >= 4 && id.length() <= 5, "The entered id " +
-                                                                          "argument is invalid!!");
+        Preconditions.checkArgument(id.length() >= 4 && id.startsWith("deg"),
+                "The entered id argument is invalid!!");
 
-        // check if the first 3 characters is valid
-        if (!(id.startsWith("deg"))) {
-            // invalid, throw the exception
-            throw new IllegalArgumentException("The id you enter is incorrect! please re-enter it");
-        }
+//        try {
+//            if(id.length()==4){
+//                return new Degree(id,DEGREE_NAMES[Integer.valueOf(id.substring(3))]);
+//            }
+//        }catch (java.lang.NumberFormatException e){
+//            System.out.println("Sorry, you enter a wrong id!");
+//            return null;
+//        }
 
         try {
             // establish the connection to the directory
