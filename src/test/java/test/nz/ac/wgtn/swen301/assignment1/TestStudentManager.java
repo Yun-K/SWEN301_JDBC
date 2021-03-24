@@ -262,10 +262,11 @@ public class TestStudentManager {
 
             long after_seconds = System.currentTimeMillis();
             long diff = after_seconds - before_seconds;
+
             System.out.println(
                     "1000 DEGREE queries runs " + diff + " milliseconds" +
                                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff > 0 && diff < 1000;
+            assert  diff >=0 && diff < 1000;
         }
 
         // test the readStudent
@@ -284,7 +285,7 @@ public class TestStudentManager {
             System.out.println(
                     "STUDENT: 1000 queries runs " + diff + " milliseconds" +
                                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff > 0 && diff < 1000;
+            assert diff >= 0 && diff < 1000;
         }
 
         // test the getAllDegreeId
@@ -299,7 +300,7 @@ public class TestStudentManager {
             System.out.println(
                     "Collections: 1000 queries runs " + diff + " milliseconds" +
                                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff > 0 && diff < 1000;
+            assert diff >= 0 && diff < 1000;
         }
 
     }
