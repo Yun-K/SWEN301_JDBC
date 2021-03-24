@@ -8,18 +8,11 @@
   <name>assignment1</name>
   <url>http://maven.apache.org</url>
     <build>
-        <finalName>studentfinder</finalName>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-            </configuration>
-        </plugin>
+        <plugins>
 
-        <plugin>
+
+        <!--From website: https://www.baeldung.com/executable-jar-with-maven-->
+            <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
@@ -30,21 +23,58 @@
                     </goals>
                     <configuration>
                         <archive>
-                            <manifest>
-                                <mainClass>
-                                    nz.ac.wgtn.swen301.assignment1.cli.FindStudentDetails
-                                </mainClass>
-                            </manifest>
+                        <manifest>
+                            <mainClass>
+        nz.ac.wgtn.swen301.assignment1.cli.FindStudentDetails                    </mainClass>
+                        </manifest>
                         </archive>
                         <descriptorRefs>
                             <descriptorRef>jar-with-dependencies</descriptorRef>
                         </descriptorRefs>
+                        <!--set the appendAssemblyId false-->
+                        <appendAssemblyId>false</appendAssemblyId>
                     </configuration>
                 </execution>
             </executions>
         </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+<!--            https://gist.github.com/nevinjojo/eb03c8ed90498823891106f09753414b-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-site-plugin</artifactId>-->
+<!--                <version>3.7.1</version>-->
+<!--            </plugin>-->
+
+
+
+
     </plugins>
+        <finalName>studentfinder</finalName>
     </build>
+
+<!--    https://gist.github.com/nevinjojo/eb03c8ed90498823891106f09753414b-->
+<!--    <reporting>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.codehaus.mojo</groupId>-->
+<!--                <artifactId>jdepend-maven-pluglsin</artifactId>-->
+<!--                <version>2.0</version>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </reporting>-->
+
+
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -67,8 +97,8 @@
           <groupId>nz.ac.wgtn.swen301</groupId>
           <artifactId>studentdb</artifactId>
           <version>1.1.1</version>
-          <scope>system</scope>
-          <systemPath>${project.basedir}/lib/studentdb-1.1.1.jar</systemPath>
+<!--          <scope>system</scope>-->
+<!--          <systemPath>${project.basedir}/lib/studentdb-1.1.1.jar</systemPath>-->
       </dependency>
 
       <!--replace the local dependency of the guava library to the normal internet one -->
@@ -80,11 +110,11 @@
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
-      <dependency>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.3.0</version>
-      </dependency>
+      <!-- <dependency> -->
+          <!-- <groupId>org.apache.maven.plugins</groupId> -->
+          <!-- <artifactId>maven-assembly-plugin</artifactId> -->
+          <!-- <version>3.3.0</version> -->
+      <!-- </dependency> -->
 
   </dependencies>
 
