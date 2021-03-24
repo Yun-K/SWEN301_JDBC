@@ -127,8 +127,8 @@ public class TestStudentManager {
         // random check
         for (int i = 0; i < 910; i++) {
             // define the range
-            int max = 0;
-            int min = 9999;
+            int max = 9999;
+            int min = 0;
             int range = max - min + 1;
 
             // generate random numbers within 0 to 9999(including)
