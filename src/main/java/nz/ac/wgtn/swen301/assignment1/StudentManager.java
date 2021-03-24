@@ -22,10 +22,10 @@ public class StudentManager {
     /** define the range of the available student id which is 0 - 9999 */
     public static final int beUsedStudentID_max = 9999;
 
-    private static final String[] DEGREE_NAMES = new String[] { "BSc Computer Science",
+    private static final String[] DEGREE_NAMES = new String[] {"BSc Computer Science",
             "BSc Computer " + "Graphics", "BE Cybersecurity", "BE Software Engineering",
             "BSc Mathematics", "BSc Chemistry", "BA Art", "BA Philosophy", "BCom Finance",
-            "BCom Marketing" };
+            "BCom Marketing"};
 
     // private static HashMap<String, Student> id_student_map = new HashMap<>();
 
@@ -44,14 +44,14 @@ public class StudentManager {
      * do not create a second one.
      *
      * @param id
-     *            the string id to locate the Student object
+     *         the string id to locate the Student object
      * @return the student object with the specified id
      *
      * @throws NoSuchRecordException
-     *             if no record with such an id exists in the database This functionality is to
-     *             be tested in
-     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readStudent
-     *             (followed by optional numbers if multiple tests are used)
+     *         if no record with such an id exists in the database This functionality is to
+     *         be tested in
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readStudent
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
         // precondition check
@@ -63,23 +63,21 @@ public class StudentManager {
         // return it if it's in the hashMap cache
         // if (id_student_map.containsKey(id)){return id_student_map.get(id);}
 
+        ResultSet resultSet = null;
+        PreparedStatement prepareStatement = null;
+        Connection connection = null;
+
         String degreeName = null;// store the degree.name
         try {
             // estblish the connection to the directory
-            Connection connection = DriverManager.getConnection("jdbc:derby:memory:studentdb");
-
-            // Create a Statement object to execute the query with.
-            // Statement statement = connection.createStatement();
-            // ResultSet resultSet = statement.executeQuery("SELECT * FROM STUDENTS WHERE ID =
-            // '" + id + "'");
+            connection = DriverManager.getConnection("jdbc:derby:memory:studentdb");
 
             // create a preparedStatement object to execute the query with
-            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM " +
-                                                                             "STUDENTS WHERE ID =" +
-                                                                             " ?");
+            prepareStatement = connection.prepareStatement("SELECT * FROM " +
+                    "STUDENTS WHERE ID =" + " ?");
             // set the argument in order to execute the sql query
             prepareStatement.setString(1, id);
-            ResultSet resultSet = prepareStatement.executeQuery();
+            resultSet = prepareStatement.executeQuery();
 
             // iterate the resultSet until no more rows can be read
             while (resultSet.next()) {
@@ -113,12 +111,17 @@ public class StudentManager {
                 // id_student_map.put(id,student);
 
                 connection.close();// close connection to save the resourse
+                prepareStatement.close();
+                resultSet.close();
                 return student;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        finally {
+//            closeResources(prepareStatement, resultSet, connection, null);
+//        }
 
         return null;
     }
@@ -129,14 +132,14 @@ public class StudentManager {
      * do not create a second one.
      *
      * @param id
-     *            the String id that can locate the Degree
+     *         the String id that can locate the Degree
      * @return the Degree object with the specified id
      *
      * @throws NoSuchRecordException
-     *             if no record with such an id exists in the database This functionality is to
-     *             be tested in
-     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readDegree
-     *             (followed by optional numbers if multiple tests are used)
+     *         if no record with such an id exists in the database This functionality is to
+     *         be tested in
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readDegree
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Degree readDegree(String id) throws NoSuchRecordException {
         //do the precondition to  check whether the entered id is valid or not
@@ -153,18 +156,21 @@ public class StudentManager {
 //            return null;
 //        }
 
+        ResultSet resultSet = null;
+        PreparedStatement prepareStatement = null;
+        Connection connection = null;
         try {
             // establish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+            connection = DriverManager.getConnection(jdbc_url);
 
             // create a preparedStatement object to execute the query with
-            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM " +
-                                                                             "DEGREES WHERE ID =" +
-                                                                             " ?");
+            prepareStatement = connection.prepareStatement("SELECT * FROM " +
+                    "DEGREES WHERE ID =" +
+                    " ?");
             // set the argument in order to execute the sql query
             prepareStatement.setString(1, id);
-            ResultSet resultSet = prepareStatement.executeQuery();
+            resultSet = prepareStatement.executeQuery();
 
             // // Create a Statement object to execute the query with.
             // Statement statement = connection.createStatement();
@@ -185,6 +191,9 @@ public class StudentManager {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+//        finally {
+//            closeResources(prepareStatement, resultSet, connection, null);
+//        }
 
         return null;
     }
@@ -194,11 +203,11 @@ public class StudentManager {
      * with this id will result in a NoSuchRecordException.
      *
      * @param student
-     *            the student object to delete from the database
+     *         the student object to delete from the database
      * @throws NoSuchRecordException
-     *             if no record corresponding to this student instance exists in the database
-     *             This functionality is to be tested in
-     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
+     *         if no record corresponding to this student instance exists in the database
+     *         This functionality is to be tested in
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
      */
     public static void delete(Student student) throws NoSuchRecordException {
         // do the Precondition check
@@ -209,17 +218,21 @@ public class StudentManager {
         String lastName = student.getName();
 
         Preconditions.checkNotNull(id, firstName, lastName, student.getDegree());
+
+        PreparedStatement prepareStatement = null;
+        Connection connection = null;
+        Statement statement = null;
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+            connection = DriverManager.getConnection(jdbc_url);
             // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
             statement.executeUpdate(
                     "DELETE FROM STUDENTS WHERE ID='" + id + "'" + " AND " +
-                                    "first_name='" + firstName + "'" + " AND name='" + lastName
-                                    + "'");
+                            "first_name='" + firstName + "'" + " AND name='" + lastName
+                            + "'");
 
             // if (id_student_map.containsKey(id)){
             // //delete it from the hashMap
@@ -229,6 +242,8 @@ public class StudentManager {
             connection.close();// close the connection to save resources
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            closeResources(null, null, connection, statement);
         }
     }
 
@@ -241,16 +256,21 @@ public class StudentManager {
      * ensure that tests only use values with < 10 characters.
      *
      * @param student
-     *            Student instance to update
+     *         Student instance to update
      * @throws NoSuchRecordException
-     *             if no record corresponding to this student instance exists in the database
-     *             This functionality is to be tested in
-     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_update
-     *             (followed by optional numbers if multiple tests are used)
+     *         if no record corresponding to this student instance exists in the database
+     *         This functionality is to be tested in
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_update
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static void update(Student student) throws NoSuchRecordException {
         // do the Precondition check
         Preconditions.checkNotNull(student);
+
+
+        Statement statement = null;
+        Connection connection = null;
+
         // get the info
         String id = student.getId();
         String firstName = student.getFirstName();
@@ -260,24 +280,27 @@ public class StudentManager {
         // precondition check again
         Preconditions.checkArgument(firstName.length() < 10 || lastName.length() < 10,
                 "The length of the student first name and last name must be within 10 " +
-                                                                                       "characters!!");
+                        "characters!!");
 
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+            connection = DriverManager.getConnection(jdbc_url);
             // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
             statement.executeUpdate(
                     "UPDATE STUDENTS SET first_name='" + firstName + "', degree='" + degree.getId()
-                                    + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
+                            + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
             // id_student_map.put(id,student);
 
             connection.close();// close the connection to save resources
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            closeResources(null, null, connection, statement);
         }
+
 
     }
 
@@ -289,28 +312,31 @@ public class StudentManager {
      * with < 10 characters.
      *
      * @param name
-     *            the last name of the Student instance
+     *         the last name of the Student instance
      * @param firstName
-     *            the first name of the Student instance
+     *         the first name of the Student instance
      * @param degree
-     *            the degree that this Student instance belongs to
+     *         the degree that this Student instance belongs to
      * @return a freshly created student instance This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
-     *         (followed by optional numbers if multiple tests are used)
+     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
+     * (followed by optional numbers if multiple tests are used)
      */
     public static Student createStudent(String name, String firstName, Degree degree) {
         // precondition check
         Preconditions.checkNotNull(name, firstName, degree);
         Preconditions.checkArgument(firstName.length() < 10 || name.length() < 10,
                 "The length of the student first name and last name must be within 10 " +
-                                                                                   "characters!!");
+                        "characters!!");
 
+
+        Statement statement = null;
+        Connection connection = null;
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+            connection = DriverManager.getConnection(jdbc_url);
             // Create a Statement object to execute the query with.
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
             // find the id that is not been used,start with the beUsedStudentID_max + 1
             // for (int i = beUsedStudentID_min; i < beUsedStudentID_max + 1; i++) {
@@ -321,8 +347,8 @@ public class StudentManager {
                 if (currentStudent == null) {
                     // add it into the STUDENTS table
                     String sql = "INSERT INTO STUDENTS (id, name, first_name, degree) VALUES ('"
-                                 + id + "', '" + name + "', '" + firstName + "', '"
-                                 + degree.getId() + "')";
+                            + id + "', '" + name + "', '" + firstName + "', '"
+                            + degree.getId() + "')";
                     statement.executeUpdate(sql);
                     connection.close();// close the connection to save resources
 
@@ -336,6 +362,8 @@ public class StudentManager {
 
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeResources(null, null, connection, statement);
         }
         return null;
 
@@ -345,22 +373,25 @@ public class StudentManager {
      * Get all student ids currently being used in the database.
      *
      * @return This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllStudentIds
-     *         (followed by optional numbers if multiple tests are used)
+     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllStudentIds
+     * (followed by optional numbers if multiple tests are used)
      */
     public static Collection<String> getAllStudentIds() {
         List<String> used_student_ids = new LinkedList<>();
+        ResultSet resultSet = null;
+        PreparedStatement prepareStatement = null;
+        Connection connection = null;
 
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+            connection = DriverManager.getConnection(jdbc_url);
 
             // create a preparedStatement object to execute the query with
-            PreparedStatement prepareStatement = connection.prepareStatement("SELECT * FROM " +
-                                                                             "STUDENTS");
+            prepareStatement = connection.prepareStatement("SELECT * FROM " +
+                    "STUDENTS");
             // set the argument in order to execute the sql query
-            ResultSet resultSet = prepareStatement.executeQuery();
+            resultSet = prepareStatement.executeQuery();
 
             // Create a Statement object to execute the query with.
             // Statement statement = connection.createStatement();
@@ -377,6 +408,8 @@ public class StudentManager {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            closeResources(prepareStatement, resultSet, connection, null);
         }
 
         return used_student_ids;
@@ -386,22 +419,24 @@ public class StudentManager {
      * Get all degree ids currently being used in the database.
      *
      * @return This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllDegreeIds
-     *         (followed by optional numbers if multiple tests are used)
+     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllDegreeIds
+     * (followed by optional numbers if multiple tests are used)
      */
     public static Iterable<String> getAllDegreeIds() {
         List<String> used_ids = new LinkedList<>();
-
+        ResultSet resultSet = null;
+        PreparedStatement prepareStatement = null;
+        Connection connection = null;
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
-            Connection connection = DriverManager.getConnection(jdbc_url);
+            connection = DriverManager.getConnection(jdbc_url);
 
             // create a preparedStatement object to execute the query with
-            PreparedStatement prepareStatement = connection
+            prepareStatement = connection
                     .prepareStatement("SELECT * FROM DEGREES");
             // set the argument in order to execute the sql query
-            ResultSet resultSet = prepareStatement.executeQuery();
+            resultSet = prepareStatement.executeQuery();
 
             // Create a Statement object to execute the query with.
             // Statement statement = connection.createStatement();
@@ -418,9 +453,67 @@ public class StudentManager {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } finally {
+            closeResources(prepareStatement, resultSet, connection, null);
         }
 
         return used_ids;
     }
+
+    /**
+     * Method for release the resource on the Heap to avoid the memory leaks.
+     *
+     * @param preparedStatement
+     *         to release
+     * @param resultSet
+     *         to release
+     * @param connection
+     *         to release
+     */
+    private static void closeResources(PreparedStatement preparedStatement, ResultSet resultSet,
+                                       Connection connection, Statement statement) {
+        try {
+            if (preparedStatement != null && !preparedStatement.isClosed()) {
+                preparedStatement.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Warning! PreparedStatement could not be closed.");
+            //dk if can use the logger, so use system.out.print
+            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+        }
+
+        try {
+            if (resultSet != null && !resultSet.isClosed()) {
+                resultSet.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Warning! Resultset could not be closed.");
+            //dk if can use the logger, so use system.out.print
+            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+        }
+
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Warning! Connection could not be closed.");
+            //dk if can use the logger, so use system.out.print
+            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+        }
+
+        try {
+            if (statement != null && !statement.isClosed()) {
+                statement.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Warning! Statement could not be closed.");
+            //dk if can use the logger, so use system.out.print
+            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+        }
+
+
+    }
+
 
 }
