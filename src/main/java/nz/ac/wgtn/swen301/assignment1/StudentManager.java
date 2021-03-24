@@ -16,12 +16,11 @@ import java.util.*;
  * @author jens dietrich
  */
 public class StudentManager {
-    
 
-    private static final String[] DEGREE_NAMES = new String[] {"BSc Computer Science",
+    private static final String[] DEGREE_NAMES = new String[] { "BSc Computer Science",
             "BSc Computer " + "Graphics", "BE Cybersecurity", "BE Software Engineering",
             "BSc Mathematics", "BSc Chemistry", "BA Art", "BA Philosophy", "BCom Finance",
-            "BCom Marketing"};
+            "BCom Marketing" };
 
     // private static HashMap<String, Student> id_student_map = new HashMap<>();
 
@@ -40,18 +39,18 @@ public class StudentManager {
      * do not create a second one.
      *
      * @param id
-     *         the string id to locate the Student object
+     *            the string id to locate the Student object
      * @return the student object with the specified id
      *
      * @throws NoSuchRecordException
-     *         if no record with such an id exists in the database This functionality is to
-     *         be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readStudent
-     *         (followed by optional numbers if multiple tests are used)
+     *             if no record with such an id exists in the database This functionality is to
+     *             be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readStudent
+     *             (followed by optional numbers if multiple tests are used)
      */
     public static Student readStudent(String id) throws NoSuchRecordException {
         // precondition check
-        // check if  the id is a valid argument or not
+        // check if the id is a valid argument or not
         Preconditions.checkNotNull(id, "The id can not be NULL!");
         Preconditions.checkArgument(id.length() >= 3 && id.startsWith("id"),
                 "The entered id argument is invalid!!");
@@ -70,7 +69,7 @@ public class StudentManager {
 
             // create a preparedStatement object to execute the query with
             prepareStatement = connection.prepareStatement("SELECT * FROM " +
-                    "STUDENTS WHERE ID =" + " ?");
+                                                           "STUDENTS WHERE ID =" + " ?");
             // set the argument in order to execute the sql query
             prepareStatement.setString(1, id);
             resultSet = prepareStatement.executeQuery();
@@ -115,9 +114,9 @@ public class StudentManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        finally {
-//            closeResources(prepareStatement, resultSet, connection, null);
-//        }
+        // finally {
+        // closeResources(prepareStatement, resultSet, connection, null);
+        // }
 
         return null;
     }
@@ -128,29 +127,29 @@ public class StudentManager {
      * do not create a second one.
      *
      * @param id
-     *         the String id that can locate the Degree
+     *            the String id that can locate the Degree
      * @return the Degree object with the specified id
      *
      * @throws NoSuchRecordException
-     *         if no record with such an id exists in the database This functionality is to
-     *         be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readDegree
-     *         (followed by optional numbers if multiple tests are used)
+     *             if no record with such an id exists in the database This functionality is to
+     *             be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_readDegree
+     *             (followed by optional numbers if multiple tests are used)
      */
     public static Degree readDegree(String id) throws NoSuchRecordException {
-        //do the precondition to  check whether the entered id is valid or not
+        // do the precondition to check whether the entered id is valid or not
         Preconditions.checkNotNull(id, "The id can not be NULL!");
         Preconditions.checkArgument(id.length() >= 4 && id.startsWith("deg"),
                 "The entered id argument is invalid!!");
 
-//        try {
-//            if(id.length()==4){
-//                return new Degree(id,DEGREE_NAMES[Integer.valueOf(id.substring(3))]);
-//            }
-//        }catch (java.lang.NumberFormatException e){
-//            System.out.println("Sorry, you enter a wrong id!");
-//            return null;
-//        }
+        // try {
+        // if(id.length()==4){
+        // return new Degree(id,DEGREE_NAMES[Integer.valueOf(id.substring(3))]);
+        // }
+        // }catch (java.lang.NumberFormatException e){
+        // System.out.println("Sorry, you enter a wrong id!");
+        // return null;
+        // }
 
         ResultSet resultSet = null;
         PreparedStatement prepareStatement = null;
@@ -162,8 +161,8 @@ public class StudentManager {
 
             // create a preparedStatement object to execute the query with
             prepareStatement = connection.prepareStatement("SELECT * FROM " +
-                    "DEGREES WHERE ID =" +
-                    " ?");
+                                                           "DEGREES WHERE ID =" +
+                                                           " ?");
             // set the argument in order to execute the sql query
             prepareStatement.setString(1, id);
             resultSet = prepareStatement.executeQuery();
@@ -187,9 +186,9 @@ public class StudentManager {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-//        finally {
-//            closeResources(prepareStatement, resultSet, connection, null);
-//        }
+        // finally {
+        // closeResources(prepareStatement, resultSet, connection, null);
+        // }
 
         return null;
     }
@@ -199,11 +198,11 @@ public class StudentManager {
      * with this id will result in a NoSuchRecordException.
      *
      * @param student
-     *         the student object to delete from the database
+     *            the student object to delete from the database
      * @throws NoSuchRecordException
-     *         if no record corresponding to this student instance exists in the database
-     *         This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
+     *             if no record corresponding to this student instance exists in the database
+     *             This functionality is to be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_delete
      */
     public static void delete(Student student) throws NoSuchRecordException {
         // do the Precondition check
@@ -215,7 +214,7 @@ public class StudentManager {
 
         Preconditions.checkNotNull(id, firstName, lastName, student.getDegree());
 
-        PreparedStatement prepareStatement = null;
+       
         Connection connection = null;
         Statement statement = null;
         try {
@@ -227,8 +226,8 @@ public class StudentManager {
 
             statement.executeUpdate(
                     "DELETE FROM STUDENTS WHERE ID='" + id + "'" + " AND " +
-                            "first_name='" + firstName + "'" + " AND name='" + lastName
-                            + "'");
+                                    "first_name='" + firstName + "'" + " AND name='" + lastName
+                                    + "'");
 
             // if (id_student_map.containsKey(id)){
             // //delete it from the hashMap
@@ -252,17 +251,16 @@ public class StudentManager {
      * ensure that tests only use values with < 10 characters.
      *
      * @param student
-     *         Student instance to update
+     *            Student instance to update
      * @throws NoSuchRecordException
-     *         if no record corresponding to this student instance exists in the database
-     *         This functionality is to be tested in
-     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_update
-     *         (followed by optional numbers if multiple tests are used)
+     *             if no record corresponding to this student instance exists in the database
+     *             This functionality is to be tested in
+     *             test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_update
+     *             (followed by optional numbers if multiple tests are used)
      */
     public static void update(Student student) throws NoSuchRecordException {
         // do the Precondition check
         Preconditions.checkNotNull(student);
-
 
         Statement statement = null;
         Connection connection = null;
@@ -276,7 +274,7 @@ public class StudentManager {
         // precondition check again
         Preconditions.checkArgument(firstName.length() < 10 || lastName.length() < 10,
                 "The length of the student first name and last name must be within 10 " +
-                        "characters!!");
+                                                                                       "characters!!");
 
         try {
             // estblish the connection to the directory
@@ -287,7 +285,7 @@ public class StudentManager {
 
             statement.executeUpdate(
                     "UPDATE STUDENTS SET first_name='" + firstName + "', degree='" + degree.getId()
-                            + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
+                                    + "', " + "name='" + lastName + "'WHERE id='" + id + "'");
             // id_student_map.put(id,student);
 
             connection.close();// close the connection to save resources
@@ -296,7 +294,6 @@ public class StudentManager {
         } finally {
             closeResources(null, null, connection, statement);
         }
-
 
     }
 
@@ -308,31 +305,30 @@ public class StudentManager {
      * with < 10 characters.
      *
      * @param name
-     *         the last name of the Student instance
+     *            the last name of the Student instance
      * @param firstName
-     *         the first name of the Student instance
+     *            the first name of the Student instance
      * @param degree
-     *         the degree that this Student instance belongs to
+     *            the degree that this Student instance belongs to
      * @return a freshly created student instance This functionality is to be tested in
-     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
-     * (followed by optional numbers if multiple tests are used)
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_createStudent
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Student createStudent(String name, String firstName, Degree degree) {
         // precondition check
         Preconditions.checkNotNull(name, firstName, degree);
         Preconditions.checkArgument(firstName.length() < 10 || name.length() < 10,
                 "The length of the student first name and last name must be within 10 " +
-                        "characters!!");
-
+                                                                                   "characters!!");
 
         Statement statement = null;
         Connection connection = null;
-        
-        //get the last id from the used_student ids, and assign the next unused one
-        LinkedList<String>used_studentID = (LinkedList<String>) getAllStudentIds();
+
+        // get the last id from the used_student ids, and assign the next unused one
+        LinkedList<String> used_studentID = (LinkedList<String>) getAllStudentIds();
         int nextUnUsedID = 1 + Integer.valueOf(used_studentID.getLast().substring(2));
 
-        String id = "id"+ nextUnUsedID;
+        String id = "id" + nextUnUsedID;
         try {
             // estblish the connection to the directory
             String jdbc_url = "jdbc:derby:memory:studentdb";
@@ -340,7 +336,7 @@ public class StudentManager {
             // Create a Statement object to execute the query with.
             statement = connection.createStatement();
 
-         // find the id that is not been used,start with the beUsedStudentID_max + 1
+            // find the id that is not been used,start with the beUsedStudentID_max + 1
             // for (int i = beUsedStudentID_min; i < beUsedStudentID_max + 1; i++) {
 
             // add it into the STUDENTS table
@@ -356,7 +352,6 @@ public class StudentManager {
             // id_student_map.put(id,student);
             return student;
 
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -370,8 +365,8 @@ public class StudentManager {
      * Get all student ids currently being used in the database.
      *
      * @return This functionality is to be tested in
-     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllStudentIds
-     * (followed by optional numbers if multiple tests are used)
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllStudentIds
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Collection<String> getAllStudentIds() {
         List<String> used_student_ids = new LinkedList<>();
@@ -386,7 +381,7 @@ public class StudentManager {
 
             // create a preparedStatement object to execute the query with
             prepareStatement = connection.prepareStatement("SELECT * FROM " +
-                    "STUDENTS");
+                                                           "STUDENTS");
             // set the argument in order to execute the sql query
             resultSet = prepareStatement.executeQuery();
 
@@ -408,14 +403,14 @@ public class StudentManager {
         } finally {
             closeResources(prepareStatement, resultSet, connection, null);
         }
-        
-      //sort it
+
+        // sort it
         Collections.sort(used_student_ids, ((o1, o2) -> {
-            if(Integer.valueOf(o1.substring(2))<Integer.valueOf(o2.substring(2))){
-                //sort it like id0, id1, id2 etc
+            if (Integer.valueOf(o1.substring(2)) < Integer.valueOf(o2.substring(2))) {
+                // sort it like id0, id1, id2 etc
                 return -1;
             }
-            return  1;
+            return 1;
         }));
 
         return used_student_ids;
@@ -425,8 +420,8 @@ public class StudentManager {
      * Get all degree ids currently being used in the database.
      *
      * @return This functionality is to be tested in
-     * test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllDegreeIds
-     * (followed by optional numbers if multiple tests are used)
+     *         test.nz.ac.wgtn.swen301.assignment1.TestStudentManager::test_getAllDegreeIds
+     *         (followed by optional numbers if multiple tests are used)
      */
     public static Iterable<String> getAllDegreeIds() {
         List<String> used_ids = new LinkedList<>();
@@ -462,13 +457,13 @@ public class StudentManager {
         } finally {
             closeResources(prepareStatement, resultSet, connection, null);
         }
-        
+
         Collections.sort(used_ids, ((o1, o2) -> {
-            if(Integer.valueOf(o1.substring(3))<Integer.valueOf(o2.substring(3))){
-                //sort it like deg0, deg1, deg2 etc
+            if (Integer.valueOf(o1.substring(3)) < Integer.valueOf(o2.substring(3))) {
+                // sort it like deg0, deg1, deg2 etc
                 return -1;
             }
-            return  1;
+            return 1;
         }));
 
         return used_ids;
@@ -478,22 +473,23 @@ public class StudentManager {
      * Method for release the resource on the Heap to avoid the memory leaks.
      *
      * @param preparedStatement
-     *         to release
+     *            to release
      * @param resultSet
-     *         to release
+     *            to release
      * @param connection
-     *         to release
+     *            to release
      */
     private static void closeResources(PreparedStatement preparedStatement, ResultSet resultSet,
-                                       Connection connection, Statement statement) {
+            Connection connection, Statement statement) {
         try {
             if (preparedStatement != null && !preparedStatement.isClosed()) {
                 preparedStatement.close();
             }
         } catch (SQLException e) {
             System.out.println("Warning! PreparedStatement could not be closed.");
-            //dk if can use the logger, so use system.out.print
-            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+            // dk if can use the logger, so use system.out.print
+            // logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be
+            // closed.");
         }
 
         try {
@@ -502,8 +498,9 @@ public class StudentManager {
             }
         } catch (SQLException e) {
             System.out.println("Warning! Resultset could not be closed.");
-            //dk if can use the logger, so use system.out.print
-            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+            // dk if can use the logger, so use system.out.print
+            // logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be
+            // closed.");
         }
 
         try {
@@ -512,8 +509,9 @@ public class StudentManager {
             }
         } catch (SQLException e) {
             System.out.println("Warning! Connection could not be closed.");
-            //dk if can use the logger, so use system.out.print
-            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+            // dk if can use the logger, so use system.out.print
+            // logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be
+            // closed.");
         }
 
         try {
@@ -522,12 +520,11 @@ public class StudentManager {
             }
         } catch (SQLException e) {
             System.out.println("Warning! Statement could not be closed.");
-            //dk if can use the logger, so use system.out.print
-            //logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be closed.");
+            // dk if can use the logger, so use system.out.print
+            // logger.debug(LoggerCodes.TRACE, "Warning! PreparedStatement could not be
+            // closed.");
         }
 
-
     }
-
 
 }
