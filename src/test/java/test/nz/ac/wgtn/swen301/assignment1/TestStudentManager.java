@@ -127,8 +127,8 @@ public class TestStudentManager {
         // random check
         for (int i = 0; i < 910; i++) {
             // define the range
-            int max = StudentManager.beUsedStudentID_max;
-            int min = StudentManager.beUsedStudentID_min;
+            int max = 0;
+            int min = 9999;
             int range = max - min + 1;
 
             // generate random numbers within 0 to 9999(including)
@@ -208,36 +208,38 @@ public class TestStudentManager {
 
     /**
      * Test for checking invalid args.
+     * 
      * @throws NoSuchRecordException
      */
     @Test
     public void test_readStudent3() throws NoSuchRecordException {
         try {
             StudentManager.readStudent("id-1");
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
             System.out.println("Successfully catch the  invalid argument. The test pass " +
-                    "successfully");
+                               "successfully");
         }
 
         try {
             StudentManager.readStudent("ws21");
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
             System.out.println("Successfully catch the  invalid argument. The test pass " +
-                    "successfully");
+                               "successfully");
         }
 
         try {
             StudentManager.readStudent(null);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
             System.out.println("Successfully catch the  invalid argument. The test pass " +
-                    "successfully");
+                               "successfully");
 
         }
         // System.out.println("Done");
     }
+
     /**
      * Description: <br/>
      * Test for the performance of my programme is within 1 sec for 1000 random queries.
@@ -247,7 +249,7 @@ public class TestStudentManager {
      */
     @Test
     public void test_performance() throws Exception {
-        StudentManager studentManager = new StudentManager();//load the class first
+        StudentManager studentManager = new StudentManager();// load the class first
 
         // test the readRegree
         for (int time = 0; time < 11; time++) {
@@ -262,10 +264,11 @@ public class TestStudentManager {
 
             long after_seconds = System.currentTimeMillis();
             long diff = after_seconds - before_seconds;
+
             System.out.println(
                     "1000 DEGREE queries runs " + diff + " milliseconds" +
                                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff > 0 && diff < 1000;
+            assert diff >= 0 && diff < 1000;
         }
 
         // test the readStudent
@@ -284,7 +287,7 @@ public class TestStudentManager {
             System.out.println(
                     "STUDENT: 1000 queries runs " + diff + " milliseconds" +
                                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff > 0 && diff < 1000;
+            assert diff >= 0 && diff < 1000;
         }
 
         // test the getAllDegreeId
@@ -299,7 +302,7 @@ public class TestStudentManager {
             System.out.println(
                     "Collections: 1000 queries runs " + diff + " milliseconds" +
                                "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff > 0 && diff < 1000;
+            assert diff >= 0 && diff < 1000;
         }
 
     }
