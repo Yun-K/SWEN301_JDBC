@@ -5,14 +5,19 @@
 
 #b. How to generate the standalone CLI application with mvn, and how to use
 <br>
-1) clone my repo with the command: <p>
-       git clone https://gitlab.ecs.vuw.ac.nz/course-work/swen301/2021/zhouyun/Assignment1.git
+1) clone my repo, and run: cd Assignment1 to open into the folder.
 <p>
-2) run the command: cd Assignment1 to open into the folder.
+2) run the following command to get the assoicated studentdb.jar file install :<p>
+mvn install:install-file -Dfile=lib/studentdb-1.1.1.jar -DgroupId=nz.ac.wgtn.swen301 -DartifactId=studentdb -Dversion=1.1.1 -Dpackaging=jar
 <p>
-3) mvn compile
-Command-Line-Interface application
-
+3) run the following command to package the project: mvn package
+<p>
+4) now, the executable jar file with the name studentfinder.jar can be found in target/studentfinder.jar
+<p>
+5)finally, the standalone Command-Line-Interface application can be run in this command:<p>
+java -jar target/studentfinder.jar id42
+<p>A little bit slow, please be patient. :)
+<p>
 #c. Discuss (less than 100 words) whether your design is prone to memory leaks by interfering with Garbage Collection and how this has been or could be addressed.
 <br>
 In my design, Connection, Statement, PreparedStatement, ResultSet are used and they occupy the space resource on heap. <p>
