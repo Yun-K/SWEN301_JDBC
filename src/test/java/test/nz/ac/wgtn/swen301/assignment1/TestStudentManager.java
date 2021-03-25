@@ -290,20 +290,20 @@ public class TestStudentManager {
             assert diff >= 0 && diff < 1000;
         }
 
-        // test the getAllDegreeId
-        for (int time = 0; time < 10; time++) {
-            long before_seconds = System.currentTimeMillis();
-            for (int i = 0; i < 1000; i++) {
-                // StudentManager.getAllStudentIds();
-                StudentManager.getAllDegreeIds();
-            }
-            long after_seconds = System.currentTimeMillis();
-            long diff = after_seconds - before_seconds;
-            System.out.println(
-                    "Collections: 1000 queries runs " + diff + " milliseconds" +
-                               "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            assert diff >= 0 && diff < 1000;
-        }
+//        // test the getAllDegreeId
+//        for (int time = 0; time < 10; time++) {
+//            long before_seconds = System.currentTimeMillis();
+//            for (int i = 0; i < 1000; i++) {
+//                // StudentManager.getAllStudentIds();
+//                StudentManager.getAllDegreeIds();
+//            }
+//            long after_seconds = System.currentTimeMillis();
+//            long diff = after_seconds - before_seconds;
+//            System.out.println(
+//                    "Collections: 1000 queries runs " + diff + " milliseconds" +
+//                               "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//            assert diff >= 0 && diff < 1000;
+//        }
 
     }
 
